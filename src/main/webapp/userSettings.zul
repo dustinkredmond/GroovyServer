@@ -1,0 +1,32 @@
+<zk>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <window id="userSettingsDialog"
+            title="User Settings" width="50%" apply="org.gserve.ui.UsersController" closable="true">
+        <grid span="1" sizedByContent="true">
+            <columns>
+                <column width="35%"/>
+                <column width="75%"/>
+            </columns>
+            <rows>
+                <row>
+                    <label value="Current Password:"/>
+                    <textbox submitByEnter="true" id="textBoxCurrentPassword" type="password" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="New Password:"/>
+                    <textbox submitByEnter="true" id="textBoxNewPassword" type="password" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="Confirm New Password:"/>
+                    <textbox submitByEnter="true" id="textBoxConfirmNewPassword" type="password" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <hbox spacing="15px">
+                        <button label="Save" id="buttonSavePassword"/>
+                        <button label="Cancel" onClick="userSettingsDialog.detach() "/>
+                    </hbox>
+                </row>
+            </rows>
+        </grid>
+    </window>
+</zk>

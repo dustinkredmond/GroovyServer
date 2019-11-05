@@ -1,0 +1,49 @@
+<zk>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <window visible="${sessionScope.admin}" id="editSettingsDialog"
+            title="System Settings" width="50%" apply="org.gserve.ui.EditSystemSettingsController" closable="true">
+        <grid span="1" sizedByContent="true">
+            <columns>
+                <column width="35%"/>
+                <column width="75%"/>
+            </columns>
+            <rows>
+                <row>
+                    <label value="SMTP Username:"/>
+                    <textbox value="${arg.smtpUsername}" id="textBoxUsername" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="SMTP Password:"/>
+                    <textbox type="password" value="${arg.smtpPassword}" id="textBoxPassword" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="SMTP Server:"/>
+                    <textbox value="${arg.smtpServer}" id="textBoxServer" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="SMTP Port:"/>
+                    <textbox value="${arg.smtpPort}" id="textBoxPort" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="Alert Email:"/>
+                    <textbox value="${arg.alertEmail}" id="textBoxEmail" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="Logging Alert Level:"/>
+                    <listbox id="listBoxLevel" mold="select">
+                        <listitem selected="${arg.infoSelected}" label="INFO" value="INFO"/>
+                        <listitem selected="${arg.warningSelected}" label="WARNING" value="WARNING"/>
+                        <listitem selected="${arg.errorSelected}" label="ERROR" value="ERROR"/>
+                        <listitem selected="${arg.offSelected}" label="OFF" value="OFF"/>
+                    </listbox>
+                </row>
+                <row>
+                    <hbox spacing="15px">
+                        <button label="Save" id="buttonSaveChanges"/>
+                        <button label="Cancel" onClick="editSettingsDialog.detach() "/>
+                    </hbox>
+                </row>
+            </rows>
+        </grid>
+    </window>
+</zk>

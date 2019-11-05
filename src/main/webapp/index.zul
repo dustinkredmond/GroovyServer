@@ -1,0 +1,38 @@
+<zk>
+    <?page title="Groovy Scripts"?>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <?meta name="viewport" content="width=device-width, initial-scale=1.0"?>
+    <vlayout apply="org.gserve.ui.GroovyScriptController">
+        <div style="inline-block;">
+            <image width="50px" height="50px" src="/img/logo-single.png"/>
+            <label value="Groovy Scripts" style="display: inline-block; color: rgba(0,0,0,0.57)"/>
+        </div>
+        <include src="include/menuBar.zul"/>
+        <hbox spacing="5px">
+            <combobutton label="Actions" popup="actionsPopup, type=toggle">
+                <menupopup id="actionsPopup">
+                    <menuitem label="Add Script" iconSclass="z-icon-plus" id="buttonAdd"/>
+                    <menuitem label="Edit Script" iconSclass="z-icon-edit" id="buttonEdit"/>
+                    <menuitem disabled="${!sessionScope.admin}" label="Delete Script" iconSclass="z-icon-minus" id="buttonDelete"/>
+                </menupopup>
+            </combobutton>
+            <button disabled="${!sessionScope.admin}" style="display: block;" id="buttonSchedule" iconSclass="z-icon-calendar" label="Schedule/Unschedule"/>
+        </hbox>
+        <box width="100%" id="resultBox" context="editPopup"/>
+        <menupopup id="editPopup">
+            <menuitem id="menuExecute" iconSclass="z-icon-cog" label="Execute Now"/>
+            <menuitem id="menuEdit" iconSclass="z-icon-edit" label="Edit Script"/>
+            <menuitem id="menuAdd" iconSclass="z-icon-plus" label="Add Script"/>
+            <menuitem disabled="${!sessionScope.admin}" id="menuDelete" iconSclass="z-icon-minus" label="Delete Script"/>
+        </menupopup>
+        <zscript><![CDATA[
+        import org.gserve.table.TableViewController;
+
+        Listbox listBox = new TableViewController("SELECT id, class_name, description, created, creator, changed, is_scheduled, schedule, last_execution FROM groovy_scripts");
+        listBox.setEmptyMessage("No Groovy scripts found.");
+        listBox.setSpan("100%");
+        resultBox.getChildren().clear();
+        resultBox.getChildren().add(listBox);
+        ]]></zscript>
+    </vlayout>
+</zk>

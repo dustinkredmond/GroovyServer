@@ -1,0 +1,39 @@
+<zk>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <window visible="${sessionScope.admin}" id="addUserDialog"
+            title="Add Groovy Variable" width="60%" apply="org.gserve.ui.UsersController" closable="true">
+        <grid sizedByContent="true" span="1">
+            <columns>
+                <column width="35%" label=""/>
+                <column width="75%" label=""/>
+            </columns>
+            <rows>
+                <row>
+                    <label value="Username:"/>
+                    <textbox id="textBoxUsername" constraint="no empty"/>
+                </row>
+                <row>
+                    <label value="Password:"/>
+                    <textbox id="textBoxPassword" type="password" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="Confirm Password:"/>
+                    <textbox id="textBoxConfirm" type="password" constraint="no empty" hflex="1" vflex="1"/>
+                </row>
+                <row>
+                    <label value="Role:"/>
+                    <listbox id="listBoxRole" mold="select">
+                        <listitem label="Administrator" value="admin"/>
+                        <listitem label="Standard User" value="user"/>
+                    </listbox>
+                </row>
+                <row>
+                    <hbox spacing="15px">
+                        <button label="Add User" id="buttonSubmitAdd"/>
+                        <button label="Cancel" onClick="addUserDialog.detach() "/>
+                    </hbox>
+                </row>
+            </rows>
+        </grid>
+    </window>
+</zk>

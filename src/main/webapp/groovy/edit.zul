@@ -1,0 +1,37 @@
+<zk>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <window width="50%" id="editScriptDialog"
+            title="Edit Groovy Script" maximizable="true" closable="true" sizable="true"
+            apply="org.gserve.ui.EditGroovyScriptController">
+        <grid span="1" sizedByContent="true">
+            <columns>
+                <column width="25%"/>
+                <column hflex="75%"/>
+            </columns>
+            <rows>
+                <row visible="false">
+                    <label id="labelKey" visible="false" value="${arg.scriptId}"/>
+                </row>
+                <row>
+                    <label value="Class Name:"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' value="${arg.className}" id="textBoxClassName" constraint="no empty"/>
+                </row>
+                <row>
+                    <label value="Description:"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' width="500px" value="${arg.description}" id="textBoxDescription"/>
+                </row>
+                <row>
+                    <label value="Groovy Code:"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");'  value="${arg.groovyCode}" id="textBoxGroovyCode" rows="25" hflex="1" vflex="1"/>
+                </row>
+            </rows>
+        </grid>
+        <vbox spacing="10px">
+            <label/>
+            <hbox spacing="15px">
+                <button label="Save" id="buttonSaveChanges"/>
+                <button label="Cancel" onClick="editScriptDialog.detach()"/>
+            </hbox>
+        </vbox>
+    </window>
+</zk>

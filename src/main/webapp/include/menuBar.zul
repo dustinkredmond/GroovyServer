@@ -1,0 +1,25 @@
+<box width="100%">
+    <menubar width="100%" apply="org.gserve.menu.MainMenuBarController">
+        <menu label="System">
+            <menupopup>
+                <menuitem visible="${sessionScope.admin}" id="menuSettings" label="System Settings" iconSclass="z-icon-cog"/>
+                <menuitem visible="${sessionScope.admin}" label="Users" iconSclass="z-icon-user" onClick='Executions.sendRedirect("users.zul");'/>
+                <menuitem id="menuUserSettings" label="User Settings" iconSclass="z-icon-user"/>
+                <menuitem id="logout" label="Logout (${sessionScope.username})" iconSclass="z-icon-share" onClick='Executions.getCurrent().getSession().invalidate(); Executions.sendRedirect("index.zul")'/>
+            </menupopup>
+        </menu>
+        <menu label="Groovy">
+            <menupopup>
+                <menuitem iconSclass="z-icon-cog" label="Groovy Scripts" onClick='Executions.sendRedirect("index.zul")'/>
+                <menuitem visible="${sessionScope.admin}" iconSclass="z-icon-question" label="Groovy Variables" onClick='Executions.sendRedirect("groovyVariables.zul");'/>
+                <menuitem iconSclass="z-icon-list" label="Groovy Execution Logs" onClick='Executions.sendRedirect("executionLogs.zul");'/>
+            </menupopup>
+        </menu>
+        <menu label="Help">
+            <menupopup>
+                <menuitem iconSclass="z-icon-book" label="API Documentation" onClick='Executions.sendRedirect("https://gserve.org/docs/api");'/>
+                <menuitem iconSclass="z-icon-question" id="showAbout" label="About" onClick='Messagebox.show("GroovyServer - GServe.org\nCopyright 2019 \u00a9 Dustin K. Redmond");'/>
+            </menupopup>
+        </menu>
+    </menubar>
+</box>

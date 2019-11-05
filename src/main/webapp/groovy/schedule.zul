@@ -1,0 +1,48 @@
+<zk>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <window id="scheduleScriptDialog"
+            title="Schedule Groovy Script" width="80%" apply="org.gserve.ui.ScheduleGroovyScriptController" closable="true">
+        <grid>
+            <columns>
+                <column label=""/>
+                <column label=""/>
+            </columns>
+            <rows>
+                <row>
+                    <label value="ID:"/>
+                    <textbox disabled="true" value="${arg.groovyId}" id="textBoxKey"/>
+                </row>
+                <row>
+                    <label value="Class Name:"/>
+                    <textbox disabled="true" value="${arg.groovyClass}"/>
+                </row>
+                <row>
+                    <label value="Description:"/>
+                    <textbox disabled="true" value="${arg.description}" width="500px"/>
+                </row>
+                <row>
+                    <label value="Schedule:"/>
+                    <listbox id="listBoxSchedule" mold="select">
+                        <listitem label="Monthly" value="Monthly"/>
+                        <listitem label="Daily" value="Daily"/>
+                        <listitem label="Twice Daily" value="Twice Daily"/>
+                        <listitem label="Hourly" value="Hourly"/>
+                        <listitem label="Half Hourly" value="Half Hourly"/>
+                        <listitem label="Every Minute" value="Minute"/>
+                        <listitem id="listItemCron" label="Cron Expression" value="Cron Expression"/>
+                    </listbox>
+                </row>
+                <row id="rowCronExpression" visible="false">
+                    <label value="Cron Expression:"/>
+                    <textbox id="textBoxCronExpression"/>
+                </row>
+                <row>
+                    <hbox spacing="15px">
+                        <button label="Schedule Script" id="buttonSchedule"/>
+                        <button label="Cancel" onClick="scheduleScriptDialog.detach()"/>
+                    </hbox>
+                </row>
+            </rows>
+        </grid>
+    </window>
+</zk>

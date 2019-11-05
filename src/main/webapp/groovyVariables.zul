@@ -1,0 +1,30 @@
+<zk>
+    <?page title="Groovy Variables"?>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <vlayout visible="${sessionScope.admin}" apply="org.gserve.ui.GroovyVariableController">
+        <div style="inline-block;">
+            <image width="50px" height="50px" src="/img/logo-single.png"/>
+            <label value="Groovy Variables" style="display: inline-block; color: rgba(0,0,0,0.57)"/>
+        </div>
+        <include src="include/menuBar.zul"/>
+        <vbox spacing="5px">
+            <combobutton label="Actions" popup="actionsPopup, type=toggle">
+                <menupopup id="actionsPopup">
+                    <menuitem id="buttonAdd" label="Add Variable" iconSclass="z-icon-plus"/>
+                    <menuitem id="buttonEdit" label="Edit Variable" iconSclass="z-icon-edit"/>
+                    <menuitem id="buttonDelete" label="Delete Variable" iconSclass="z-icon-minus"/>
+                </menupopup>
+            </combobutton>
+        </vbox>
+        <box width="100%" id="resultBox" context="actionsPopup"/>
+        <zscript><![CDATA[
+        import org.gserve.table.TableViewController;
+
+        Listbox listBox = new TableViewController("SELECT id, variable, value FROM groovy_variables");
+        listBox.setEmptyMessage("No Groovy variables found.");
+        listBox.setSpan("100%");
+        resultBox.getChildren().clear();
+        resultBox.getChildren().add(listBox);
+        ]]></zscript>
+    </vlayout>
+</zk>

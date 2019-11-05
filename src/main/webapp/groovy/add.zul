@@ -1,0 +1,32 @@
+<zk>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <window width="50%" sizable="true" maximizable="true" closable="true" id="addScriptDialog"
+            title="Add Groovy Script" apply="org.gserve.ui.AddGroovyScriptController">
+        <grid span="1" sizedByContent="true">
+            <columns>
+                <column width="25%"/>
+                <column width="75%"/>
+            </columns>
+            <rows>
+                <row>
+                    <label value="Class Name:"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' id="textBoxClassName" constraint="no empty"/>
+                </row>
+                <row>
+                    <label value="Description:"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' width="500px" id="textBoxDescription"/>
+                </row>
+                <row>
+                    <label value="Groovy Code:"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' id="textBoxGroovyCode" rows="25" hflex="1" vflex="1"/>
+                </row>
+            </rows>
+        </grid>
+        <vbox spacing="10px">
+        <hbox spacing="15px">
+            <button label="Add Script" id="buttonSubmitAdd"/>
+            <button label="Cancel" onClick="addScriptDialog.detach() "/>
+        </hbox>
+        </vbox>
+    </window>
+</zk>

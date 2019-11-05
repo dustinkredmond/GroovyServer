@@ -1,0 +1,32 @@
+<zk>
+    <?page title="Groovy Execution Logs"?>
+    <?init class="org.gserve.auth.AuthenticationInit"?>
+    <vlayout visible="${sessionScope.admin}" apply="org.gserve.ui.UsersController">
+        <div style="inline-block;">
+            <image width="50px" height="50px" src="/img/logo-single.png"/>
+            <label value="Users" style="display: inline-block; color: rgba(0,0,0,0.57)"/>
+        </div>
+        <include src="include/menuBar.zul"/>
+        <vbox spacing="5px">
+            <combobutton label="Actions" popup="actionsPopup, type=toggle">
+                <menupopup id="actionsPopup">
+                    <menuitem id="buttonAdd" iconSclass="z-icon-plus" label="Add User"/>
+                    <menuitem id="buttonResetPassword" iconSclass="z-icon-cog" label="Reset Password"/>
+                    <menuitem id="buttonDeleteUser" iconSclass="z-icon-minus" label="Delete User"/>
+                </menupopup>
+            </combobutton>
+        </vbox>
+        <hbox spacing="10px">
+        </hbox>
+        <box width="100%" id="resultBox" context="actionsPopup"/>
+        <zscript><![CDATA[
+        import org.gserve.table.TableViewController;
+
+        Listbox listBox = new TableViewController("SELECT id, username, role FROM users");
+        listBox.setEmptyMessage("No users found...");
+        listBox.setSpan("100%");
+        resultBox.getChildren().clear();
+        resultBox.getChildren().add(listBox);
+        ]]></zscript>
+    </vlayout>
+</zk>

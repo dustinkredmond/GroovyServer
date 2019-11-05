@@ -1,0 +1,15 @@
+<Context>
+
+    <!-- Used for configuring GroovyServer's database connections
+      Connections are negotiated by the org.gserve.api.persistence.Database
+      class. Any customizability of GroovyServer's database connection functionality
+      should be modified there, and the below Resource should be modified as appropriate.
+
+      GroovyServer is tested with MariaDB, other RDBMS may require further modifications.
+    -->
+    <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
+              maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+              username="dbUsername" password="secur3DBpa55" driverClassName="org.mariadb.jdbc.Driver"
+              url="jdbc:mariadb://localhost:3306/groovy_server"/>
+
+</Context>

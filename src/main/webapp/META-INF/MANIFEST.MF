@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Specification-Title: GroovyServer
+Specification-Version: 3.0
+Specification-Vendor: 
+Implementation-Title: 
+Implementation-URL: http://www.gserve.org/
+Implementation-Version: 3.0
+Implementation-Vendor: 

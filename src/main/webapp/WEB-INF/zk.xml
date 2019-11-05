@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk>
+    <preference>
+        <name>org.zkoss.zk.ui.WebApp.name</name>
+        <value>GroovyServer</value>
+    </preference>
+    <!-- Sets the ZK framework's preferred theme -->
+    <library-property>
+        <name>org.zkoss.theme.preferred</name>
+        <value>silvertail</value>
+    </library-property>
+    <!-- Kicks off the Quartz jobs on application start -->
+    <listener>
+        <listener-class>org.gserve.BackgroundJobRunner</listener-class>
+    </listener>
+</zk>

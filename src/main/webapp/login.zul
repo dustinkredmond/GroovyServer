@@ -1,0 +1,12 @@
+<zk>
+    <?page title="GroovyServer - Login"?>
+    <div apply="org.gserve.auth.LoginController" align="center">
+        <box align="center">
+            <image src="/img/logo.svg" width="300px" height="300px"/>
+            <textbox placeholder="Username" focus="true" id="textBoxUsername"/>
+            <textbox placeholder="Password" id="textBoxPassword" type="password"/>
+            <button id="buttonLogin" label="Login"/>
+            <label value="Copyright 2019 &#169; - Dustin K. Redmond" style="color: #949494;"/>
+        </box>
+    </div>
+</zk>
