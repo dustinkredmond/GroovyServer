@@ -1,12 +1,16 @@
-package org.gserve.api.groovy
+package org.gserve.api.groovy;
 
-import org.gserve.api.logging.Logger
-import org.gserve.api.persistence.Database
-import org.gserve.model.User
+import groovy.lang.Binding;
+import groovy.lang.GroovyShell;
+import groovy.lang.Script;
+import org.gserve.api.logging.Logger;
+import org.gserve.api.persistence.Database;
+import org.gserve.model.User;
 
-import java.sql.Connection
-import java.sql.PreparedStatement
-import java.text.SimpleDateFormat
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -14,10 +18,9 @@ import java.text.SimpleDateFormat
  * <code>org.gserve.api.groovy.GroovyScriptRunner</code>
  * Date: 08/05/2019 15:21
  */
-@SuppressWarnings("unused")
-class GroovyScriptRunner {
+public class GroovyScriptRunner {
 
-    static Logger log = new Logger()
+    private static final Logger log = new Logger();
     /**
      * Takes a Groovy code to return an object from the passed parameters.
      * This script will call the groovy code's .execute(inParam) method.
@@ -27,16 +30,15 @@ class GroovyScriptRunner {
      * @param inParam The object passed to the groovy's .execute() method.
      * @return Object as defined in the passed groovy code and returned by .execute() method.
      */
-    @SuppressWarnings("GrUnnecessarySemicolon")
-    static Object execute(String className, String code, String boundName, Object inParam){
-        GroovyShell shell = new GroovyShell()
-        Script script = shell.parse(code+"\n return new "+className+".execute(boundName);",className+".groovy")
-        Binding bind = new Binding()
-        bind.setVariable(boundName, inParam)
-        script.setBinding(bind)
-        log.logInfo("Executed class: ${className}.")
-        updateRuntime(className)
-        return script.run()
+    public static Object execute(String className, String code, String boundName, Object inParam){
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(code+"\n return new "+className+".execute(boundName)",className+".groovy");
+        Binding bind = new Binding();
+        bind.setVariable(boundName, inParam);
+        script.setBinding(bind);
+        log.logInfo(String.format("Executed class: %s.", className));
+        updateRuntime(className);
+        return script.run();
     }
 
     /**
@@ -46,11 +48,11 @@ class GroovyScriptRunner {
      * @return Returns groovy.lang.Script.run() method's result.
      */
     static Object execute(String className, String code){
-        GroovyShell shell = new GroovyShell()
-        Script script = shell.parse(code,className+".groovy")
-        updateRuntime(className)
-        log.logInfo("Executed class: ${className}.")
-        return script.run()
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(code,className+".groovy");
+        updateRuntime(className);
+        log.logInfo(String.format("Executed class: %s.",className));
+        return script.run();
 
     }
 
@@ -62,12 +64,12 @@ class GroovyScriptRunner {
      * @return groovy.lang.Script.run() method's result.
      */
     static Object userExecute(String className, String code){
-        GroovyShell shell = new GroovyShell()
-        Script script = shell.parse(code,className+".groovy")
-        updateRuntime(className)
-        String user = User.getCurrentUser().getUsername()
-        log.logInfo(String.format("User: %s executed Groovy class: %s.",user,className))
-        return script.run()
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(code,className+".groovy");
+        updateRuntime(className);
+        String user = User.getCurrentUser().getUsername();
+        log.logInfo(String.format("User: %s executed Groovy class: %s.",user,className));
+        return script.run();
     }
 
 
@@ -80,11 +82,11 @@ class GroovyScriptRunner {
      * @return Returns the invoked method's return value.
      */
     static Object executeMethod(String className, String code, String methodName, Object methodParam) {
-        GroovyShell shell = new GroovyShell()
-        Script script = shell.parse(code,className+".groovy")
-        log.logInfo("Executed class: ${className}.")
-        updateRuntime(className)
-        return script.invokeMethod(methodName, methodParam)
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(code,className+".groovy");
+        log.logInfo(String.format("Executed class: %s.",className));
+        updateRuntime(className);
+        return script.invokeMethod(methodName, methodParam);
     }
 
     /**
@@ -95,10 +97,10 @@ class GroovyScriptRunner {
      * @return Returns the invoked method's return value.
      */
     static Object executeMethod(String code, String methodName, Object methodParam){
-        GroovyShell shell = new GroovyShell()
-        Script script = shell.parse(code)
-        log.logInfo("Executed groovy method: ${methodName}.")
-        return script.invokeMethod(methodName, methodParam)
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(code);
+        log.logInfo(String.format("Executed groovy method: %s.",methodName));
+        return script.invokeMethod(methodName, methodParam);
     }
 
     /**
@@ -107,10 +109,10 @@ class GroovyScriptRunner {
      * @return Returns groovy.lang.Script.run() method's result.
      */
     static Object execute(String code) {
-        GroovyShell shell = new GroovyShell()
-        Script script = shell.parse(code)
-        log.logInfo("Executed classless groovy code.")
-        return script.run()
+        GroovyShell shell = new GroovyShell();
+        Script script = shell.parse(code);
+        log.logInfo("Executed classless groovy code.");
+        return script.run();
     }
 
     /**
@@ -118,17 +120,17 @@ class GroovyScriptRunner {
      * @param className Persisted groovy code's class name.
      */
     private static void updateRuntime(String className) {
-        Database db = new Database()
-        final String sql = "UPDATE groovy_scripts SET last_execution = ? WHERE class_name = ?"
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        String currentDate = sdf.format(new Date())
+        Database db = new Database();
+        final String sql = "UPDATE groovy_scripts SET last_execution = ? WHERE class_name = ?";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String currentDate = sdf.format(new Date());
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, currentDate)
-            pstmt.setString(2, className)
-            pstmt.executeUpdate()
+            pstmt.setString(1, currentDate);
+            pstmt.setString(2, className);
+            pstmt.executeUpdate();
         } catch (Exception e) {
-            log.logError("Unable to update groovy class runtime for ${className} at ${currentDate}.")
-            log.logError("SQLException occurred: ${e.getMessage()}")
+            log.logError(String.format("Unable to update groovy class runtime for %s at %s.",className,currentDate));
+            log.logError(String.format("SQLException occurred: %s",e.getMessage()));
         }
     }
 }
