@@ -148,6 +148,10 @@
 							<descriptors>
 								<descriptor>src/main/assembly/webapp.xml</descriptor>
 							</descriptors>
+							<sources>
+								<source>src/main/java</source>
+								<source>src/main/webapp</source>
+							</sources>
 						</configuration>
 					</execution>
 				</executions>
