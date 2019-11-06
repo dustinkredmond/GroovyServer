@@ -47,7 +47,7 @@ public class GroovyScriptRunner {
      * @param code Groovy code to execute.
      * @return Returns groovy.lang.Script.run() method's result.
      */
-    static Object execute(String className, String code){
+    public static Object execute(String className, String code){
         GroovyShell shell = new GroovyShell();
         Script script = shell.parse(code,className+".groovy");
         updateRuntime(className);
@@ -63,7 +63,7 @@ public class GroovyScriptRunner {
      * @param code Groovy code to execute.
      * @return groovy.lang.Script.run() method's result.
      */
-    static Object userExecute(String className, String code){
+    public static Object userExecute(String className, String code){
         GroovyShell shell = new GroovyShell();
         Script script = shell.parse(code,className+".groovy");
         updateRuntime(className);
@@ -81,7 +81,7 @@ public class GroovyScriptRunner {
      * @param methodParam Object passed to invoked method.
      * @return Returns the invoked method's return value.
      */
-    static Object executeMethod(String className, String code, String methodName, Object methodParam) {
+    public static Object executeMethod(String className, String code, String methodName, Object methodParam) {
         GroovyShell shell = new GroovyShell();
         Script script = shell.parse(code,className+".groovy");
         log.logInfo(String.format("Executed class: %s.",className));
@@ -96,7 +96,7 @@ public class GroovyScriptRunner {
      * @param methodParam Object passed to invoked method.
      * @return Returns the invoked method's return value.
      */
-    static Object executeMethod(String code, String methodName, Object methodParam){
+    public static Object executeMethod(String code, String methodName, Object methodParam){
         GroovyShell shell = new GroovyShell();
         Script script = shell.parse(code);
         log.logInfo(String.format("Executed groovy method: %s.",methodName));
@@ -108,7 +108,7 @@ public class GroovyScriptRunner {
      * @param code Groovy code to execute.
      * @return Returns groovy.lang.Script.run() method's result.
      */
-    static Object execute(String code) {
+    public static Object execute(String code) {
         GroovyShell shell = new GroovyShell();
         Script script = shell.parse(code);
         log.logInfo("Executed classless groovy code.");
