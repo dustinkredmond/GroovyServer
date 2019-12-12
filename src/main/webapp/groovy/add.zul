@@ -18,7 +18,7 @@
                 </row>
                 <row>
                     <label value="Groovy Code:"/>
-                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' id="textBoxGroovyCode" rows="25" hflex="1" vflex="1"/>
+                    <textbox onCreate='self.setClientAttribute("spellcheck","false");' id="textBoxGroovyCode" rows="25" hflex="1"/>
                 </row>
             </rows>
         </grid>
