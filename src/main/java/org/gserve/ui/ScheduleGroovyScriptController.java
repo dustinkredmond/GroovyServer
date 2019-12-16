@@ -6,16 +6,15 @@ import org.gserve.jobs.CronJob;
 import org.gserve.model.GroovyScript;
 import org.gserve.api.persistence.Database;
 import org.quartz.*;
+import org.sql2o.Connection;
+import org.sql2o.Query;
+import org.sql2o.Sql2oException;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.*;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -78,22 +77,20 @@ public class ScheduleGroovyScriptController extends SelectorComposer<Component> 
     }
 
     private void scheduleJob(GroovyScript gs, String schedule, boolean isCron) {
-        final String sql = "UPDATE groovy_scripts SET is_scheduled = 'Yes', schedule = ? WHERE id = ?";
-        Database db = new Database();
-        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
-            pstmt.setString(1, schedule);
-            pstmt.setInt(2, gs.getId());
-            // schedules custom quartz job from groovy script after it is persisted
+        final String sqlQuery = "UPDATE groovy_scripts SET is_scheduled = 'Yes', schedule = :schedule WHERE id = :id";
+        try (Connection conn = new Database().get().open()) {
+            Query query = conn.createQuery(sqlQuery).addParameter("schedule", schedule)
+                    .addParameter("id", gs.getId());
             if (isCron) {
-                // Only write db if scheduling does not throw SchedulerException.
-                if (scheduleCronJob(gs, schedule)){
-                    pstmt.executeUpdate();
+                if (scheduleCronJob(gs, schedule)) {
+                    // Only gets called if scheduling is valid, otherwise, don't execute update.
+                    query.executeUpdate();
                 }
             } else {
-                pstmt.executeUpdate();
+                query.executeUpdate();
             }
-        } catch (SQLException e){
-            Messagebox.show("Unable to schedule groovy code.");
+        } catch (Sql2oException e) {
+            Messagebox.show("Unable to schedule groovy script.");
             e.printStackTrace();
         }
     }
