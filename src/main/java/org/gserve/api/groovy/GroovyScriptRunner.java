@@ -6,9 +6,11 @@ import groovy.lang.Script;
 import org.gserve.api.logging.Logger;
 import org.gserve.api.persistence.Database;
 import org.gserve.model.User;
+import org.sql2o.Connection;
+import org.sql2o.Query;
+import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -65,7 +67,7 @@ public class GroovyScriptRunner {
      */
     public static Object userExecute(String className, String code){
         GroovyShell shell = new GroovyShell();
-        Script script = shell.parse(code,className+".groovy");
+        Script script = shell.parse(code,className + ".groovy");
         updateRuntime(className);
         String user = User.getCurrentUser().getUsername();
         log.logInfo(String.format("User: %s executed Groovy class: %s.",user,className));
@@ -120,17 +122,18 @@ public class GroovyScriptRunner {
      * @param className Persisted groovy code's class name.
      */
     private static void updateRuntime(String className) {
-        Database db = new Database();
-        final String sql = "UPDATE groovy_scripts SET last_execution = ? WHERE class_name = ?";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentDate = sdf.format(new Date());
-        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, currentDate);
-            pstmt.setString(2, className);
-            pstmt.executeUpdate();
-        } catch (Exception e) {
-            log.logError(String.format("Unable to update groovy class runtime for %s at %s.",className,currentDate));
-            log.logError(String.format("SQLException occurred: %s",e.getMessage()));
+        final String sqlQuery = "UPDATE groovy_scripts SET last_execution = :lastExec WHERE class_name = :className";
+        try (Connection conn = new Database().get().open()) {
+            conn.createQuery(sqlQuery)
+                    .addParameter("lastExec", sdf.format(new Date()))
+                    .addParameter("className", className)
+                    .executeUpdate();
+        } catch (Sql2oException e) {
+            log.logError(String.format("Unable to update groovy class runtime for %s at %s.",
+                    className,sdf.format(new Date())));
+
         }
     }
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 }

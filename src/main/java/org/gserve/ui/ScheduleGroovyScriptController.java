@@ -52,7 +52,7 @@ public class ScheduleGroovyScriptController extends SelectorComposer<Component> 
             }
         }
 
-        GroovyScript gs = GroovyScript.getById(Integer.valueOf(textBoxKey.getText()));
+        GroovyScript gs = GroovyScript.getById(Integer.parseInt(textBoxKey.getText()));
         if (gs == null || listBoxSchedule.getSelectedItem() == null) {
             Messagebox.show("Unable to schedule null script.");
         } else { // if listbox has been filled out.
@@ -60,7 +60,7 @@ public class ScheduleGroovyScriptController extends SelectorComposer<Component> 
             String schedule;
             boolean isCron = false;
             if (listBoxSchedule.getSelectedItem().getValue().toString().equals("Cron Expression")){
-                if (!textBoxCronExpression.getText().isBlank()) {
+                if (!textBoxCronExpression.getText().isEmpty()) {
                     // if user selected cron expression and filled in schedule use that
                     schedule = textBoxCronExpression.getText();
                     isCron = true;
@@ -77,7 +77,7 @@ public class ScheduleGroovyScriptController extends SelectorComposer<Component> 
         }
     }
 
-    private void scheduleJob(GroovyScript gs, String schedule, boolean isCron){
+    private void scheduleJob(GroovyScript gs, String schedule, boolean isCron) {
         final String sql = "UPDATE groovy_scripts SET is_scheduled = 'Yes', schedule = ? WHERE id = ?";
         Database db = new Database();
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){

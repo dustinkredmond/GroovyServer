@@ -46,8 +46,8 @@ public class EditSystemSettingsController extends SelectorComposer<Component> {
 
     @Listen("onClick = #buttonSaveChanges")
     public void doSave() {
-        if (textBoxUsername.getText().isBlank() || textBoxPassword.getText().isBlank() ||
-                textBoxServer.getText().isBlank() || textBoxPort.getText().isBlank() || textBoxEmail.getText().isBlank()) {
+        if (textBoxUsername.getText().isEmpty() || textBoxPassword.getText().isEmpty() ||
+                textBoxServer.getText().isEmpty() || textBoxPort.getText().isEmpty() || textBoxEmail.getText().isEmpty()) {
             Messagebox.show("Please fill out all fields before continuing.");
             return;
         }
