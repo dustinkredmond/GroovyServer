@@ -1,43 +1,47 @@
 package org.gserve.api.persistence;
 
-import org.sql2o.Sql2o;
 import org.zkoss.zul.Messagebox;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Utility class for getting {@code java.sql.Connection} object to the
+ * Utility class for getting a java.sql.Connection object to the
  * application's main database. Configure in META-INF/context.xml
  */
 public class Database {
 
-    public Sql2o get() {
+    private static final String MARIADB_DRIVER = "org.mariadb.jdbc.Driver";
+
+    // Load drivers on class load, ignore and let connect() method handle if
+    // classes aren't found.
+    static {
         try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) envContext.lookup("jdbc/DB");
-            return new Sql2o(dataSource);
-        } catch (Throwable e) {
-            Messagebox.show("Unable to establish database connection. Ensure proper configuration in context.xml");
-            throw new ExceptionInInitializerError(e);
+            Class.forName(MARIADB_DRIVER);
+        } catch (ClassNotFoundException ignored) {
         }
     }
 
     /**
-     *  Retrieves a {@code java.sql.Connection} to the application's configured database
-     *  via the {@code Sql2o} framework's {@code getConnectionSource().getConnection()} method.
-     * @return {@code java.sql.Connection} to the application's main database.
-     * @throws SQLException if unable to obtain database connection.
+     * Method for getting connections to the GroovyServer's main database.
+     * @return Returns a java.sql.Connection to the configured database.
+     * @throws SQLException Throws SQLException if Connection cannot be established.
      */
     public Connection connect() throws SQLException {
-        return get().getConnectionSource().getConnection();
+        Connection conn = null;
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource dataSource = (DataSource) envContext.lookup("jdbc/DB");
+            conn =  dataSource.getConnection();
+        } catch (NamingException e) {
+            Messagebox.show(e.getMessage());
+        }
+        return conn;
     }
 
-    private static final String MARIADB_DRIVER = "org.mariadb.jdbc.Driver";
-    // Try to load driver on class load, if it fails, let container handle.
-    static{ try { Class.forName(MARIADB_DRIVER); } catch (ClassNotFoundException ignored) {} }
 }
