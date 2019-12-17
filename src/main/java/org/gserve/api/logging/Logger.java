@@ -2,10 +2,8 @@ package org.gserve.api.logging;
 
 import org.gserve.api.persistence.Database;
 import org.gserve.api.persistence.SystemVariables;
-import org.sql2o.Connection;
-import org.sql2o.Sql2oException;
 
-//import java.sql.Connection;
+import java.sql.Connection;
 import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -61,20 +59,20 @@ public class Logger {
 
     /**
      * Logs to the execution logs an event with custom level, no email will be sent.
-     * Every log is created via this method.
      * @param event Message detailing event.
      * @param level Level of the event. (Any value can be used)
      */
-    private void log(String event, String level) {
-        final String sql = "INSERT INTO execution_logs (event, created, level)" +
-                " VALUES (:event, :created, :level)";
-        try (Connection conn = new Database().get().open()) {
-            conn.createQuery(sql)
-                    .addParameter("event", event)
-                    .addParameter("created", SDF.format(new java.util.Date()))
-                    .addParameter("level", level)
-                    .executeUpdate();
-        } catch (Sql2oException e) {
+    private void log(String event, String level){
+        Database db = new Database();
+        final String sql = "INSERT INTO execution_logs (event, created, level) VALUES (?,?,?)";
+        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, event);
+            pstmt.setString(2, SDF.format(new java.util.Date()));
+            pstmt.setString(3, level);
+            // comment next line to globally disable logging (for testing)
+            pstmt.executeUpdate();
+        } catch (SQLException e){
+            System.out.println(e.getMessage());
             e.printStackTrace();
         }
     }

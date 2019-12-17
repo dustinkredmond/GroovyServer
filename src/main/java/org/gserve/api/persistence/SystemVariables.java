@@ -1,8 +1,9 @@
 package org.gserve.api.persistence;
 
-import org.gserve.model.SystemVariable;
-import org.sql2o.Connection;
-import org.sql2o.Sql2oException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * SystemVariables contains database values that are used in the application's
@@ -15,14 +16,15 @@ public class SystemVariables {
      * @param variable Name of the system variable to retrieve.
      * @return Value of the named variable.
      */
-    public static String getValue(String variable) {
-        final String sql = "SELECT system_variables.value FROM system_variables " +
-                "WHERE system_variables.variable = :var";
-        try (Connection conn = new Database().get().open()) {
-            return conn.createQuery(sql)
-                    .addParameter("var", variable)
-                    .executeAndFetchFirst(SystemVariable.class).getVariable();
-        } catch (Sql2oException e) {
+    public static String getValue(String variable){
+        final String sql = "SELECT system_variables.value FROM system_variables WHERE system_variables.variable = ?";
+        Database db = new Database();
+        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, variable);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return rs.getString("value");
+        } catch (SQLException e){
             return "";
         }
     }
@@ -33,19 +35,15 @@ public class SystemVariables {
      * @param value New value of the system variable.
      * @return Returns true if the value was successfully set, otherwise returns false.
      */
-    public static boolean setValue(String variable, String value) {
-        final String sql = "UPDATE system_variables SET system_variables.value = :val " +
-                "WHERE system_variables.variable = :var";
-        try (Connection conn = new Database().get().open()) {
-            conn.createQuery(sql)
-                    .addParameter("val", value)
-                    .addParameter("var", variable)
-                    .executeUpdate();
-            return true;
-        } catch (Sql2oException e) {
+    public static boolean setValue(String variable, String value){
+        final String sql = "UPDATE system_variables SET system_variables.value = ? WHERE system_variables.variable = ?";
+        Database db = new Database();
+        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, value);
+            pstmt.setString(2, variable);
+            return pstmt.executeUpdate() > 0;
+        } catch (SQLException e){
             return false;
         }
-
-
     }
 }

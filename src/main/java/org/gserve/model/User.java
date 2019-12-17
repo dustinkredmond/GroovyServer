@@ -2,7 +2,6 @@ package org.gserve.model;
 
 import org.gserve.api.persistence.Database;
 import org.gserve.auth.BCrypt;
-import org.sql2o.Sql2oException;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Messagebox;
 
@@ -18,7 +17,6 @@ import java.sql.SQLException;
  * Description:
  * Date: 09/10/2019 16:22
  */
-@SuppressWarnings({"unused", "WeakerAccess"})
 public class User {
     private int id;
     private String username;
@@ -47,7 +45,7 @@ public class User {
     }
 
     public String getUsername() {
-        return this.username;
+        return username;
     }
 
     public void setUsername(String username) {
@@ -55,14 +53,16 @@ public class User {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
         this.password = notNull(password);
     }
 
-    public String getRole() { return this.role; }
+    public String getRole() {
+        return role;
+    }
 
     public void setRole(String role) {
         this.role = notNull(role);
@@ -73,23 +73,26 @@ public class User {
     }
 
     public static User getById(int id){
-        final String sql = "SELECT id, username, password, role FROM users WHERE id = :id";
-        try (org.sql2o.Connection conn = new Database().get().open()) {
-            return conn.createQuery(sql)
-                    .addParameter("id", id)
-                    .executeAndFetchFirst(User.class);
-        } catch (Sql2oException e) {
+        final String sql = "SELECT id, username, password, role FROM users WHERE id = ?";
+        Database db = new Database();
+        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return new User(rs.getInt("id"),rs.getString("username"),rs.getString("password"),rs.getString("role"));
+        } catch (SQLException e){
             return null;
         }
     }
-
-    public static User getByUsername(String username) {
-        final String sql = "SELECT id, username, password, role FROM users WHERE username = :user";
-        try (org.sql2o.Connection conn = new Database().get().open()) {
-            return conn.createQuery(sql)
-                    .addParameter("user", username)
-                    .executeAndFetchFirst(User.class);
-        } catch (Sql2oException e) {
+    public static User getByUsername(String username){
+        final String sql = "SELECT id, username, password, role FROM users WHERE username = ?";
+        Database db = new Database();
+        try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return new User(rs.getInt("id"),rs.getString("username"),rs.getString("password"),rs.getString("role"));
+        } catch (SQLException e){
             return null;
         }
     }

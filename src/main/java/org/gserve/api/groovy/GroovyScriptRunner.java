@@ -7,6 +7,8 @@ import org.gserve.api.logging.Logger;
 import org.gserve.api.persistence.Database;
 import org.gserve.model.User;
 import org.sql2o.Connection;
+import org.sql2o.Query;
+import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
 
 import java.text.SimpleDateFormat;
@@ -120,8 +122,7 @@ public class GroovyScriptRunner {
      * @param className Persisted groovy code's class name.
      */
     private static void updateRuntime(String className) {
-        final String sqlQuery = "UPDATE groovy_scripts SET " +
-                "last_execution = :lastExec WHERE class_name = :className";
+        final String sqlQuery = "UPDATE groovy_scripts SET last_execution = :lastExec WHERE class_name = :className";
         try (Connection conn = new Database().get().open()) {
             conn.createQuery(sqlQuery)
                     .addParameter("lastExec", sdf.format(new Date()))
