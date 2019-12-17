@@ -22,9 +22,7 @@ public class Logger {
     private static final String INFO = "INFO";
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
-    private String level = SystemVariables.getValue("alertLevel") != null
-            ? SystemVariables.getValue("alertLevel").trim().toUpperCase()
-            : "ERROR";
+    private String level = SystemVariables.getValue("alertLevel").trim().toUpperCase();
     private String toEmail = SystemVariables.getValue("alertEmail");
 
     /**
