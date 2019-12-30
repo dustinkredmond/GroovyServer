@@ -20,5 +20,5 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
       - store_artifacts:
-          path: target/GroovyServer.war
+          path: target
       - run: mvn package
