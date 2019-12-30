@@ -19,6 +19,6 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "pom.xml" }}
-      - run: mvn package
       - store_artifacts:
-          path: GroovyServer.jar
+          path: /target/GroovyServer.jar
+      - run: mvn package
