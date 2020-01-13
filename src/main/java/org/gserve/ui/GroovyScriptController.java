@@ -43,7 +43,7 @@ public class GroovyScriptController extends SelectorComposer<Component> {
         if (listBox.getSelectedItem() == null){
             Messagebox.show("Please select an item first.");
         } else {
-            int scriptKey = Integer.valueOf(listBox.getSelectedItem().getLabel());
+            int scriptKey = Integer.parseInt(listBox.getSelectedItem().getLabel());
             GroovyScript script = GroovyScript.getById(scriptKey);
             if (script != null){
                 Map<String,Object> arg = new HashMap<>();
@@ -67,7 +67,7 @@ public class GroovyScriptController extends SelectorComposer<Component> {
         if (listBox.getSelectedItem() == null){
             Messagebox.show("Please select an item first.");
         } else {
-            int scriptKey = Integer.valueOf(listBox.getSelectedItem().getLabel());
+            int scriptKey = Integer.parseInt(listBox.getSelectedItem().getLabel());
             GroovyScript gs = GroovyScript.getById(scriptKey);
             if (gs != null) {
 
@@ -95,14 +95,14 @@ public class GroovyScriptController extends SelectorComposer<Component> {
         }
     }
 
-    @Listen("onClick = #menuExecute")
+    @Listen("onClick = #menuExecute, #buttonExecute")
     public void doExecute(){
         if (resultBox.getFirstChild() instanceof Listbox){
             Listbox listBox = (Listbox) resultBox.getFirstChild();
             if (listBox.getSelectedItem() == null){
                 Messagebox.show("Please select a script to execute first.");
             } else {
-                int scriptId = Integer.valueOf(listBox.getSelectedItem().getLabel());
+                int scriptId = Integer.parseInt(listBox.getSelectedItem().getLabel());
                 GroovyScript script = GroovyScript.getById(scriptId);
                 if (script != null){
                     GroovyScriptRunner.userExecute(script.getClassName(),script.getCode());
@@ -120,7 +120,7 @@ public class GroovyScriptController extends SelectorComposer<Component> {
             if (listBox.getSelectedItem() == null) {
                 Messagebox.show("Please select a script first.");
             } else {
-                int scriptId = Integer.valueOf(listBox.getSelectedItem().getLabel());
+                int scriptId = Integer.parseInt(listBox.getSelectedItem().getLabel());
                 GroovyScript script = GroovyScript.getById(scriptId);
                 if (script == null) {
                     Messagebox.show("Groovy script returned a null value.");

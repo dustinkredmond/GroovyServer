@@ -11,6 +11,7 @@
         <hbox spacing="5px">
             <combobutton label="Actions" popup="actionsPopup, type=toggle">
                 <menupopup id="actionsPopup">
+                    <menuitem label="Execute Script" iconSclass="z-icon-cog" id="buttonExecute"/>
                     <menuitem label="Add Script" iconSclass="z-icon-plus" id="buttonAdd"/>
                     <menuitem label="Edit Script" iconSclass="z-icon-edit" id="buttonEdit"/>
                     <menuitem disabled="${!sessionScope.admin}" label="Delete Script" iconSclass="z-icon-minus" id="buttonDelete"/>
