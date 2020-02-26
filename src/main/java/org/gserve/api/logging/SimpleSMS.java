@@ -67,12 +67,12 @@ public class SimpleSMS {
 
     private TwilioResponse mapToResponse(Message msg) {
         HashMap<String,String> map = new HashMap<>();
-        map.put("uri", msg.getUri());
-        map.put("to", msg.getTo());
-        map.put("from", msg.getFrom().toString());
-        map.put("status", msg.getStatus().toString());
-        map.put("dateSent", msg.getDateSent().toString());
-        map.put("errorCode", String.valueOf(msg.getErrorCode()));
+        // NOTE: Found that the Message getters can return null -dustinkredmond 2020-02-26
+        map.put("uri", notNull(msg.getUri()));
+        map.put("to", notNull(msg.getTo()));
+        map.put("from", notNull(msg.getFrom()));
+        map.put("status", notNull(msg.getStatus()));
+        map.put("errorCode", notNull(msg.getErrorCode()));
         return new TwilioResponse(map);
     }
 
@@ -96,5 +96,9 @@ public class SimpleSMS {
             sb.append("}");
             return sb.toString();
         }
+    }
+
+    private String notNull(Object o) {
+        return o == null ? "null" : o.toString();
     }
 }
