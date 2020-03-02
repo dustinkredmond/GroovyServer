@@ -24,13 +24,18 @@ import org.gserve.model.GroovyScript;
 import java.lang.reflect.InvocationTargetException;
 
 /**
+ * Used for loading existing GroovyScripts, this allows for code reuse. The script
+ * must declare a default no-argument constructor for this to work.
+ * Example: <code>def MyScriptClass = GroovyLibrary.get("MyScriptClass");</code>
+ * You can then call static and instance methods of the <code>MyScriptClass</code>.
+ * <code>GroovyLibrary.get()</code> may return null if the script cannot be fetched 
+ * from the database.
  * @author Dustin K. Redmond
  * @since 03/02/2020 14:47
  */
 public class GroovyLibrary {
     /**
-     * Attempts to load an instance of a GroovyScript that exists in the database. This allows multiple
-     * scripts to use the same code as an existing <i>library</i> script.
+     * Attempts to load an instance of a GroovyScript that exists in the database.
      * @param className Name of a GroovyScript that exists.
      * @return An instance of the script's class if it exists and has a public constructor.
      */
