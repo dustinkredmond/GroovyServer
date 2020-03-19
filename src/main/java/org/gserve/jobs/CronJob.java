@@ -24,10 +24,10 @@ public class CronJob implements Job {
                 try {
                     BackgroundJobRunner.getSchedulerFactory().getScheduler().deleteJob(jobKey);
                     Logger log = new Logger();
-                    log.logInfo(jobKey+" was unscheduled by CronJob");
+                    log.logInfo(jobKey + " was unscheduled by CronJob");
                 } catch (SchedulerException e){
                     Messagebox.show("CronJob found a null groovy script and was unable to delete " +
-                            "the associated Quartz job: "+jobKey.getName());
+                            "the associated Quartz job: " + jobKey.getName());
                     e.printStackTrace();
                 }
             } else { // if GroovyScript isn't null, and is scheduled, then run it.
@@ -37,7 +37,7 @@ public class CronJob implements Job {
             }
         } catch (Exception e) {
             Logger log = new Logger();
-            log.logError("An exception occurred at org.gserve.jobs.CronJob.execute() | "+e.getMessage());
+            log.logError("An exception occurred at org.gserve.jobs.CronJob.execute() | " + e.getMessage());
         }
     }
 

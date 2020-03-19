@@ -16,12 +16,12 @@ public class TwiceDailyJob implements Job {
             List<GroovyScript> gs = GroovyScript.findActive();
             gs.forEach(script -> {
                 if (script.getSchedule().equalsIgnoreCase("Twice Daily")){
-                    GroovyScriptRunner.execute(script.getClassName(),script.getCode());
+                    GroovyScriptRunner.execute(script.getClassName(), script.getCode());
                 }
             });
         } catch (Exception e) {
             Logger log = new Logger();
-            log.logError("An exception occurred at org.gserve.jobs.TwiceDailyJob.execute() | "+e.getMessage());
+            log.logError("An exception occurred at org.gserve.jobs.TwiceDailyJob.execute() | " + e.getMessage());
         }
 
     }

@@ -17,12 +17,12 @@ public class HourlyJob implements Job {
             List<GroovyScript> gs = GroovyScript.findActive();
             gs.forEach(script -> {
                 if (script.getSchedule().equalsIgnoreCase("Hourly")){
-                    GroovyScriptRunner.execute(script.getClassName(),script.getCode());
+                    GroovyScriptRunner.execute(script.getClassName(), script.getCode());
                 }
             });
         } catch (Exception e) {
             Logger log = new Logger();
-            log.logError("An exception occurred at org.gserve.jobs.HourlyJob.execute() | "+e.getMessage());
+            log.logError("An exception occurred at org.gserve.jobs.HourlyJob.execute() | " + e.getMessage());
         }
     }
 }
