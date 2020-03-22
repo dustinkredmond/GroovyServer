@@ -62,7 +62,11 @@ public class GroovyLibrary {
       * @return An instance of the script's class via calling the public no-argument constructor
       */
     public static Object getLibraryFromCode(String classDefinition) {
-        return new GroovyClassLoader().parseClass(classDefinition).getDeclaredConstructor().newInstance();
+        try {
+            return new GroovyClassLoader().parseClass(classDefinition).getDeclaredConstructor().newInstance();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }
