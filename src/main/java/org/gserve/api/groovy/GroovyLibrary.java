@@ -33,13 +33,13 @@ import java.lang.reflect.InvocationTargetException;
  * @author Dustin K. Redmond
  * @since 03/02/2020 14:47
  */
+@SuppressWarnings("unchecked")
 public class GroovyLibrary {
     /**
      * Attempts to load an instance of a GroovyScript that exists in the database.
      * @param className Name of a GroovyScript that exists.
      * @return An instance of the script's class if it exists and has a public constructor.
      */
-    @SuppressWarnings("unchecked")
     public static Object get(String className) {
         GroovyScript gs = GroovyScript.getByClassName(className);
         if (gs != null) {
@@ -55,4 +55,14 @@ public class GroovyLibrary {
         }
         return null;
     }
+
+    /**
+      * Loads an object from a Groovy class defined within a java.lang.String
+      * @param classDefinition Groovy class to instantiate
+      * @return An instance of the script's class via calling the public no-argument constructor
+      */
+    public static Object getLibraryFromCode(String classDefinition) {
+        return new GroovyClassLoader().parseClass(classDefinition).getDeclaredConstructor().newInstance();
+    }
+    
 }
