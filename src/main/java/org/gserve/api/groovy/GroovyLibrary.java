@@ -38,7 +38,7 @@ public class GroovyLibrary {
     /**
      * Attempts to load an instance of a GroovyScript that exists in the database.
      * @param className Name of a GroovyScript that exists.
-     * @return An instance of the script's class if it exists and has a public constructor.
+     * @return An instance of the script's class if it exists and has a public constructor, else null.
      */
     public static Object get(String className) {
         GroovyScript gs = GroovyScript.getByClassName(className);
