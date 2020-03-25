@@ -80,13 +80,14 @@
             <artifactId>quartz</artifactId>
             <version>2.2.1</version>
         </dependency>
-		<!-- Need for email after Java SE8 -->
+		<!-- Java Mail API -->
 		<dependency>
 		    <groupId>com.sun.mail</groupId>
 		    <artifactId>javax.mail</artifactId>
 		    <version>1.6.2</version>
 	    </dependency>
         <!-- For SMS API -->
+        <!-- TODO: Consider supporting custom REST post to send SMS or post messages -->
         <dependency>
             <groupId>com.twilio.sdk</groupId>
             <artifactId>twilio</artifactId>
