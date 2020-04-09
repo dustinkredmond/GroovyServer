@@ -15,7 +15,6 @@ import java.util.List;
  * Created by: Dustin K. Redmond
  * Date: 08/05/2019 14:58
  */
-@SuppressWarnings("unused")
 public class TableViewController extends Listbox {
 
 
@@ -30,7 +29,7 @@ public class TableViewController extends Listbox {
         this.setId("listBox");
         this.setMold("paging");
         this.setPagingDisabled(false);
-        this.setPageSize(20);
+        this.setPageSize(25);
         List<Listitem> listItems = this.getSqlResults(sql);
         this.getChildren().add(this.getColumnNames(sql));
         listItems.forEach(item -> this.getChildren().add(item));
