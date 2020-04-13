@@ -22,6 +22,11 @@ public class User {
     private String username;
     private String password;
     private String role;
+    
+    // TODO add more details in User table and DB schema
+    // private String firstName;
+    // private String lastName;
+    // private String email;
 
     public User(int id, String username, String password, String role){
         this.id = id;
