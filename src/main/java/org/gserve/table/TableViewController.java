@@ -105,7 +105,7 @@ public class TableViewController extends Listbox {
                 listItems.add(item);
             }
             return listItems;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return listItems;
         }
@@ -130,7 +130,7 @@ public class TableViewController extends Listbox {
                 columnNames.getChildren().add(header);
             }
             return columnNames;
-        } catch (SQLException e){
+        } catch (SQLException e) { 
             e.printStackTrace();
             return columnNames;
         }
@@ -152,6 +152,5 @@ public class TableViewController extends Listbox {
         }
         return titleCase.toString();
     }
-
 
 }
