@@ -34,6 +34,7 @@ public class LoginController extends SelectorComposer<Component> {
     public void doLoginFunc() {
         this.doLogin();
     }
+
     @Listen("onClick = #buttonLogin")
     public void doLogin(){
 
@@ -61,7 +62,7 @@ public class LoginController extends SelectorComposer<Component> {
                     Executions.getCurrent().getSession().setAttribute("admin", true);
                 }
                 Executions.sendRedirect("index.zul");
-            } else {
+            } else { // BCrypt hash does not match
                 Messagebox.show("Unable to authenticate with provided credentials.");
                 textBoxPassword.setText("");
                 attemptCount++;
@@ -69,6 +70,7 @@ public class LoginController extends SelectorComposer<Component> {
 
         } catch (SQLException e){
             // Only show SQLException error if it is unknown
+            // Some SQLExceptions occur from querying for unknown user
             if (e.getMessage().startsWith("ResultSet closed") || e.getMessage().startsWith("Current position")) {
                 Messagebox.show("Unable to authenticate with provided credentials.");
                 textBoxPassword.setText("");
