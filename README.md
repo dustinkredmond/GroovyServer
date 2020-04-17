@@ -12,4 +12,3 @@ Builds are regularly executed from the repository via our continous integration 
 Feel free to fork us or submit a pull request. We love your input!
 
 [our website]: https://www.gserve.org/
-[demo]: http://demo.gserve.org/GroovyServer-Demo/
