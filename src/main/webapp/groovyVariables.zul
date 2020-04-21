@@ -21,7 +21,7 @@
         import org.gserve.table.TableViewController;
 
         Listbox listBox = new TableViewController("SELECT id, variable, value FROM groovy_variables");
-        listBox.setEmptyMessage("No Groovy variables found.");
+        listBox.setEmptyMessage("No Groovy Variables found.");
         listBox.setSpan("100%");
         resultBox.getChildren().clear();
         resultBox.getChildren().add(listBox);
