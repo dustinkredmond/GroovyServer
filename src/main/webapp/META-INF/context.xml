@@ -5,7 +5,9 @@
       class. Any customizability of GroovyServer's database connection functionality
       should be modified there, and the below Resource should be modified as appropriate.
 
-      GroovyServer is tested with MariaDB, other RDBMS may require further modifications.
+      GroovyServer is tested with MariaDB and MySQL, other databases were not taken into account
+      when designing the software, and as such could cause unintended results or may not function
+      entirely..
     -->
     <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
