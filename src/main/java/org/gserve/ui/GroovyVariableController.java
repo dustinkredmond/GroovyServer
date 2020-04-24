@@ -73,6 +73,8 @@ public class GroovyVariableController extends SelectorComposer<Component> {
                         }
                 );
             }
+        } else {
+            throw new RuntimeException("ResultBox's first child is not instance of Listbox");
         }
     }
 
