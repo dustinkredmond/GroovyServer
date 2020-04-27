@@ -23,7 +23,7 @@ public class TableViewController extends Listbox {
      * a SQL query.
      * @param sql SQL query that returns a ResultSet
      */
-    public TableViewController(String sql){
+    public TableViewController(String sql) {
         this.setSizedByContent(true);
         this.setHflex("1");
         this.setId("listBox");
@@ -46,7 +46,7 @@ public class TableViewController extends Listbox {
         });
     }
 
-    public TableViewController(String sql, int pageSize){
+    public TableViewController(String sql, int pageSize) {
         this.setSizedByContent(true);
         this.setHflex("1");
         this.setId("listBox");
@@ -73,7 +73,7 @@ public class TableViewController extends Listbox {
      * Handler to swap dragged event with its onDrop action.
      */
     private EventListener<? extends Event> head = (EventListener<Event>) e -> {
-        if (e instanceof DropEvent){
+        if (e instanceof DropEvent) {
             DropEvent event = (DropEvent) e;
 
             Listheader dragged = (Listheader) event.getDragged();
@@ -89,7 +89,7 @@ public class TableViewController extends Listbox {
     };
 
 
-    private List<Listitem> getSqlResults(String sql){
+    private List<Listitem> getSqlResults(String sql) {
         List<Listitem> listItems = new ArrayList<>();
         Database db = new Database();
 
@@ -111,7 +111,7 @@ public class TableViewController extends Listbox {
         }
     }
 
-    private Listhead getColumnNames(String sql){
+    private Listhead getColumnNames(String sql) {
         Listhead columnNames = new Listhead();
         columnNames.setId("listHead");
         columnNames.setSizable(true);
