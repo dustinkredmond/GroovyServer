@@ -15,7 +15,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * Web Application initiator. Ensures that all previously scheduled jobs are re-scheduled
- * with the Quartz framework.
+ * Schedules time-based jobs and registers them with the Quartz framework
  */
 public class BackgroundJobRunner implements WebAppInit {
 
