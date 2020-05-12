@@ -33,7 +33,7 @@ public class MainMenuBarController extends SelectorComposer<Component> {
     }
 
     @Listen("onClick = #menuUserSettings")
-    public void showUserSettingsForm(){
+    public void showUserSettingsForm() {
         Window window = (Window) Executions.createComponents("userSettings.zul", null, null);
         window.doModal();
     }
