@@ -18,7 +18,8 @@
         <menu label="Help">
             <menupopup>
                 <menuitem iconSclass="z-icon-book" label="API Documentation" onClick='Executions.sendRedirect("https://gserve.org/docs/api");'/>
-                <menuitem iconSclass="z-icon-question" id="showAbout" label="About" onClick='Messagebox.show("GroovyServer - GServe.org\nCopyright 2019 \u00a9 Dustin K. Redmond");'/>
+                <zscript> import java.text.SimpleDateFormat; String currentYear = new SimpleDateFormat("yyyy").format(new Date());  </zscript>
+                <menuitem iconSclass="z-icon-question" id="showAbout" label="About" onClick='Messagebox.show("GroovyServer - GServe.org\nCopyright ${currentYear} \u00a9 Dustin K. Redmond");'/>
             </menupopup>
         </menu>
     </menubar>
