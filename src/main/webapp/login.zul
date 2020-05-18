@@ -6,7 +6,8 @@
             <textbox placeholder="Username" focus="true" id="textBoxUsername"/>
             <textbox placeholder="Password" id="textBoxPassword" type="password"/>
             <button id="buttonLogin" label="Login"/>
-            <label value="Copyright 2019 &#169; - Dustin K. Redmond" style="color: #949494;"/>
+            <zscript> import java.text.SimpleDateFormat; String currentYear = new SimpleDateFormat("yyyy").format(new Date()); </zscript>
+            <label value="Copyright ${currentYear} &#169; - Dustin K. Redmond" style="color: #949494;"/>
         </box>
     </div>
 </zk>
