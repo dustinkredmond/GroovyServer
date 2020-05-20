@@ -32,7 +32,7 @@ public class GroovyExecutionLogsController extends SelectorComposer<Component> {
     @Listen("onClick = #buttonDelete, #menuDelete")
     public void doDelete() {
         Listbox listBox = (Listbox) resultBox.getFirstChild();
-        if (listBox.getSelectedItem() == null){
+        if (listBox.getSelectedItem() == null) {
             Messagebox.show("Please select an item first.");
         } else {
             int key = Integer.valueOf(listBox.getSelectedItem().getLabel());
@@ -51,7 +51,7 @@ public class GroovyExecutionLogsController extends SelectorComposer<Component> {
 	 * <p>Called From: /groovy/executionLogs.zul - Delete All Events Button</p>
 	 */
     @Listen("onClick = #buttonDeleteAll")
-    public void doDeleteAll(){
+    public void doDeleteAll() {
         Messagebox.show("Are you sure you wish to clear all logged events?","Delete All?",
                 Messagebox.YES | Messagebox.NO, Messagebox.QUESTION, e -> {
                     if (Messagebox.ON_YES.equals(e.getName())) {
@@ -67,8 +67,8 @@ public class GroovyExecutionLogsController extends SelectorComposer<Component> {
         final String sql = "DELETE FROM execution_logs";
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.executeUpdate();
-        } catch (SQLException e){
-            Messagebox.show(String.format("Unable to delete events due to SQLException: \n%s",e.getMessage()));
+        } catch (SQLException e) {
+            Messagebox.show(String.format("Unable to delete events due to SQLException: \n%s", e.getMessage()));
         }
     }
 
@@ -78,7 +78,7 @@ public class GroovyExecutionLogsController extends SelectorComposer<Component> {
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, key);
             pstmt.executeUpdate();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             Messagebox.show(String.format("Unable to delete event due to SQLException: \n%s",e.getMessage()));
         }
     }
