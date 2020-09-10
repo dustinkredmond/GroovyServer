@@ -150,8 +150,7 @@ public class GroovyVariables {
         if (s == null || s.isEmpty()){
             return "";
         } else {
-            String step1 = s.replaceAll("<", "&lt;");
-            return step1.replaceAll(">", "&gt;");
+            return s.replaceAll("<", "&lt;").replaceAll(">", "&gt;");
         }
     }
 }
