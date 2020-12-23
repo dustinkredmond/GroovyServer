@@ -84,12 +84,10 @@ public class Database {
             conn.prepareStatement(CREATE_GS).executeUpdate();
             conn.prepareStatement(CREATE_GV).executeUpdate();
             conn.prepareStatement(CREATE_USERS).executeUpdate();
-            if (!existsTable("system_variables")) {
-                conn.prepareStatement(CREATE_SYS).executeUpdate();
-                for (String v : defaultVariables) {
-                    conn.prepareStatement("INSERT INTO system_variables "
-                        + "(variable, value) values ("+v+",'');").executeUpdate();
-                }
+            conn.prepareStatement(CREATE_SYS).executeUpdate();
+            for (String v : defaultVariables) {
+                conn.prepareStatement("INSERT IGNORE INTO system_variables "
+                    + "(variable, value) values ("+v+",'');").executeUpdate();
             }
         } catch (SQLException e) {
 
@@ -129,7 +127,7 @@ public class Database {
         + ");";
 
     private static final String CREATE_SYS = "create table if not exists system_variables("
-        + "variable varchar(255) null, "
+        + "variable varchar(255) null unique, "
         + "value varchar(255) null, "
         + "id int auto_increment primary key"
         + ");";
@@ -143,13 +141,4 @@ public class Database {
         "alertEmail"
     };
 
-    private static boolean existsTable(String tableName) {
-        try (Connection conn = DriverManager.getConnection(url,user,password);
-            ResultSet tables = conn.getMetaData()
-                .getTables(null,null,tableName,null)) {
-            return tables.next();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
