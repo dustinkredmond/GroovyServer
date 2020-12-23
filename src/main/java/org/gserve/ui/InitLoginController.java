@@ -16,6 +16,9 @@ package org.gserve.ui;
  *  limitations under the License.
  */
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import org.gserve.api.persistence.Database;
 import org.gserve.auth.AuthenticationInit;
 import org.gserve.auth.BCrypt;
@@ -28,6 +31,7 @@ import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
 
 public class InitLoginController extends SelectorComposer<Component> {
@@ -42,6 +46,8 @@ public class InitLoginController extends SelectorComposer<Component> {
     private Window initLogin;
     @Wire
     private Checkbox createAdmin;
+    @Wire
+    private Textbox textBoxPassphrase;
 
     @Listen("onClick = #buttonSubmit")
     public void handleSubmit() {
@@ -52,9 +58,25 @@ public class InitLoginController extends SelectorComposer<Component> {
 
         if (textBoxUser.getText().trim().isEmpty()
             || textBoxPass.getText().trim().isEmpty()
-            || textBoxUrl.getText().trim().isEmpty()) {
+            || textBoxUrl.getText().trim().isEmpty()
+            || textBoxPassphrase.getText().trim().isEmpty()) {
             Messagebox.show("All fields are required.");
             return;
+        }
+
+        try {
+            InitialContext initialContext = new InitialContext();
+            Context env = (Context) initialContext.lookup("java:/comp/env");
+            String passphrase = (String) env.lookup("securityPassphrase");
+            if (!textBoxPassphrase.getText().trim().equals(passphrase.trim())) {
+                Messagebox.show("You must enter the security passphrase as it's found"
+                    + " in WEB-INF/context.xml\n\nThis should be user-defined and be "
+                    + "hard to guess.\nIf this is set to \"default\", you must change it, "
+                    + "otherwise attackers could run arbitrary code on your machine.");
+            return;
+            }
+        } catch (NamingException e) {
+            throw new RuntimeException(e);
         }
 
         Database.setUsername(textBoxUser.getText().trim());

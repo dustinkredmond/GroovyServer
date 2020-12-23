@@ -23,6 +23,10 @@
           <textbox value="jdbc:mariadb://localhost:3306/groovy_server" id="textBoxUrl" constraint="no empty" hflex="1" vflex="1"/>
         </row>
         <row>
+          <label value="Security Passphrase (META-INF/context.xml)"/>
+          <textbox id="textBoxPassphrase" type="password" constraint="no empty" hflex="1" vflex="1"/>
+        </row>
+        <row>
           <label value="You must create an admin user if this is your first time using GroovyServer."/>
         </row>
         <row>
