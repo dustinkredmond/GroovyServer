@@ -7,7 +7,6 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.util.Initiator;
 
 import java.util.Map;
-import org.zkoss.zul.Window;
 
 /**
  * Called as an init from ZUL files in order to only load the page if

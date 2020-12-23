@@ -26,10 +26,6 @@ public class BackgroundJobRunner {
         return BackgroundJobRunner.hasRun;
     }
 
-    public static void setHasRun(boolean hasRun) {
-        BackgroundJobRunner.hasRun = hasRun;
-    }
-
     private static final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
     public static SchedulerFactory getSchedulerFactory() {
@@ -37,9 +33,13 @@ public class BackgroundJobRunner {
     }
 
     public static void init() {
+        System.out.println("--------------------------- " +
+                "Initializing BackgroundJobRunner for database bootstrapping ---------------------------");
+        hasRun = true;
         try {
             initializeAppDatabase();
         } catch (NamingException e) {
+            e.printStackTrace();
             throw new RuntimeException("Unable to initialize and bootstrap "
                 + "GroovyServer database. Ensure proper credentials "
                 + "in META-INF/context.xml", e);
