@@ -2,6 +2,7 @@ package org.gserve.api.persistence;
 
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import org.zkoss.zul.Messagebox;
 
@@ -78,8 +79,10 @@ public class Database {
     }
 
 
-    public static void createTablesAndSetup() {
-        try (Connection conn = DriverManager.getConnection(url,user,password)) {
+    public static void createTablesAndSetup(String adminUsername, String adminPass) {
+        final String sqlAdmin = "INSERT IGNORE INTO users(username,password,role) VALUES (?,?,?);";
+        try (Connection conn = DriverManager.getConnection(url,user,password);
+            PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
             conn.prepareStatement(CREATE_EXEC_LOGS).executeUpdate();
             conn.prepareStatement(CREATE_GS).executeUpdate();
             conn.prepareStatement(CREATE_GV).executeUpdate();
@@ -89,14 +92,19 @@ public class Database {
                 conn.prepareStatement("INSERT IGNORE INTO system_variables "
                     + "(variable, value) values ("+v+",'');").executeUpdate();
             }
-        } catch (SQLException e) {
 
+            ps.setString(1, adminUsername);
+            ps.setString(2, adminPass);
+            ps.setString(3, "admin");
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to create application tables.", e);
         }
     }
 
     private static final String CREATE_USERS = "create table if not exists users("
         + "id int auto_increment primary key, "
-        + "username varchar(255) not null, "
+        + "username varchar(255) not null unique , "
         + "password longtext not null, "
         + "role varchar(50) null"
         + ");";

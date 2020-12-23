@@ -17,13 +17,6 @@ public class AuthenticationInit implements Initiator {
 
     @Override
     public void doInit(Page page, Map<String, Object> map) {
-        if (isInitialLogin) {
-            Window window = (Window) Executions
-                .createComponents("initLogin.zul",null,null);
-            window.doModal();
-            return;
-        }
-
         Session session = Executions.getCurrent().getSession();
         if (session.hasAttribute("authenticated")){
             boolean authenticated = (boolean) session.getAttribute("authenticated");
@@ -35,14 +28,5 @@ public class AuthenticationInit implements Initiator {
         }
     }
 
-    private static boolean isInitialLogin = true;
-
-    public static boolean isIsInitialLogin() {
-        return AuthenticationInit.isInitialLogin;
-    }
-
-    public static void setIsInitialLogin(boolean isInitial) {
-        AuthenticationInit.isInitialLogin = isInitial;
-    }
 }
 

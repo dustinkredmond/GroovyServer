@@ -10,4 +10,8 @@
         <name>org.zkoss.theme.preferred</name>
         <value>silvertail</value>
     </library-property>
+
+    <listener>
+        <listener-class>org.gserve.BackgroundJobRunner</listener-class>
+    </listener>
 </zk>
