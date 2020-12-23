@@ -64,20 +64,18 @@ public class InitLoginController extends SelectorComposer<Component> {
         if (Database.canConnect()) {
             AuthenticationInit.setIsInitialLogin(false);
             Database.createTablesAndSetup();
+            initLogin.detach();
             if (createAdmin.isChecked()) {
                 String adminUser = User.generateRandomUsername();
                 String adminPass = User.generateRandomPassword();
-                User admin = new User("admin", BCrypt.hashpw(adminPass, BCrypt.gensalt()), "admin");
+                User admin = new User(adminUser, BCrypt.hashpw(adminPass, BCrypt.gensalt()), "admin");
                 User.add(admin);
-                Messagebox.show("Please login on the following screen with below:\n\n"
+                Messagebox.show("Please login with the following information:\n\n"
                     + "Username: "+adminUser+"\n"
                     + "Password: "+adminPass+"\n\n"
                     + "You can create/remove users once logged in.\n"
                     + "You will not be able to view above information again.");
             }
-            initLogin.detach();
-            Executions.sendRedirect("login.zul");
-
         } else {
             Messagebox.show("Cannot connect with provided details.");
         }
