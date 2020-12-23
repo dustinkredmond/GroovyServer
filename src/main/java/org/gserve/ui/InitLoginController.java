@@ -24,14 +24,12 @@ import org.gserve.auth.AuthenticationInit;
 import org.gserve.auth.BCrypt;
 import org.gserve.model.User;
 import org.zkoss.zk.ui.Component;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
 import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
-import org.zkoss.zul.Timer;
 import org.zkoss.zul.Window;
 
 public class InitLoginController extends SelectorComposer<Component> {
