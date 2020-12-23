@@ -38,6 +38,9 @@
                     </listbox>
                 </row>
                 <row>
+                    <label>Note: You must reboot the server to change database settings.</label>
+                </row>
+                <row>
                     <hbox spacing="15px">
                         <button label="Save" id="buttonSaveChanges"/>
                         <button label="Cancel" onClick="editSettingsDialog.detach() "/>
