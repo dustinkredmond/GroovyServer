@@ -115,6 +115,10 @@ public class TableViewController extends Listbox {
     }
 
     private Listhead getColumnNames(String sql) {
+        if (!Database.canConnect()) {
+            return new Listhead();
+        }
+
         Listhead columnNames = new Listhead();
         columnNames.setId("listHead");
         columnNames.setSizable(true);
