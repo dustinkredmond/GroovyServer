@@ -66,7 +66,8 @@ public class BackgroundJobRunner implements WebAppInit {
         Database.setUsername(dbUser);
         Database.setPassword(dbPassword);
         Database.setUrl(dbUrl);
-        Database.createTablesAndSetup(adminUsername, BCrypt.hashpw(adminPassword, BCrypt.gensalt()));
+        Database.createTablesAndSetup();
+        Database.createDefaultInserts(adminUsername, BCrypt.hashpw(adminPassword, BCrypt.gensalt()));
     }
 
     private void startScheduledJobs() {

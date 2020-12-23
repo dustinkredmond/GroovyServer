@@ -79,26 +79,32 @@ public class Database {
     }
 
 
-    public static void createTablesAndSetup(String adminUsername, String adminPass) {
-        final String sqlAdmin = "INSERT IGNORE INTO users(username,password,role) VALUES (?,?,?);";
-        try (Connection conn = DriverManager.getConnection(url,user,password);
-            PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
+    public static void createTablesAndSetup() {
+        try (Connection conn = DriverManager.getConnection(url,user,password)) {
             conn.prepareStatement(CREATE_EXEC_LOGS).executeUpdate();
             conn.prepareStatement(CREATE_GS).executeUpdate();
             conn.prepareStatement(CREATE_GV).executeUpdate();
             conn.prepareStatement(CREATE_USERS).executeUpdate();
             conn.prepareStatement(CREATE_SYS).executeUpdate();
-            for (String v : defaultVariables) {
-                conn.prepareStatement("INSERT IGNORE INTO system_variables "
-                    + "(variable, value) values ("+v+",'');").executeUpdate();
-            }
-
-            ps.setString(1, adminUsername);
-            ps.setString(2, adminPass);
-            ps.setString(3, "admin");
-            ps.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException("Failed to create application tables.", e);
+        }
+    }
+
+    public static void createDefaultInserts(String adminUsername, String adminPassword) {
+        final String sqlAdmin = "INSERT INTO users (username,password,role) VALUES (?,?,?)";
+        try (Connection conn = DriverManager.getConnection(url,user,password);
+        PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
+            for (String v : defaultVariables) {
+                conn.prepareStatement("INSERT INTO system_variables "
+                    + "(variable, value) values ("+v+",'');").executeUpdate();
+            }
+            ps.setString(1, adminUsername);
+            ps.setString(2, adminPassword);
+            ps.setString(3, "admin");
+            ps.executeUpdate();
+        } catch (SQLException ignored) {
+            // already exists, violates UNIQUE constraint
         }
     }
 
