@@ -6,15 +6,24 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.util.Initiator;
 
 import java.util.Map;
+import org.zkoss.zul.Window;
 
 /**
  * Called as an init from ZUL files in order to only load the page if
  * the user has been authenticated. Any secure web page must declare
- * this org.zkoss.zk.ui.util.Initiator.
+ * this {@code org.zkoss.zk.ui.util.Initiator}
  */
 public class AuthenticationInit implements Initiator {
+
     @Override
     public void doInit(Page page, Map<String, Object> map) {
+        if (isInitialLogin) {
+            Window window = (Window) Executions
+                .createComponents("initLogin.zul",null,null);
+            window.doModal();
+            return;
+        }
+
         Session session = Executions.getCurrent().getSession();
         if (session.hasAttribute("authenticated")){
             boolean authenticated = (boolean) session.getAttribute("authenticated");
@@ -24,6 +33,16 @@ public class AuthenticationInit implements Initiator {
         } else {
             Executions.sendRedirect("login.zul");
         }
+    }
+
+    private static boolean isInitialLogin = true;
+
+    public static boolean isIsInitialLogin() {
+        return AuthenticationInit.isInitialLogin;
+    }
+
+    public static void setIsInitialLogin(boolean isInitial) {
+        AuthenticationInit.isInitialLogin = isInitial;
     }
 }
 

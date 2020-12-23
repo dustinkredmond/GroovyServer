@@ -45,7 +45,7 @@ public class UsersController extends SelectorComposer<Component> {
         if (listBox.getSelectedItem() == null){
             Messagebox.show("Please select a user first.");
         } else {
-            int userKey = Integer.valueOf(listBox.getSelectedItem().getLabel());
+            int userKey = Integer.parseInt(listBox.getSelectedItem().getLabel());
             User user = User.getById(userKey);
             if (user != null) {
                 String msg = "Are you sure you want to reset user "+user.getUsername()+"'s password?";
@@ -124,7 +124,7 @@ public class UsersController extends SelectorComposer<Component> {
         if (listBox.getSelectedItem() == null){
             Messagebox.show("Please select a user first.");
         } else {
-            int userKey = Integer.valueOf(listBox.getSelectedItem().getLabel());
+            int userKey = Integer.parseInt(listBox.getSelectedItem().getLabel());
             User user = User.getById(userKey);
             if (user != null) {
                 String msg = "Are you sure you want to delete user: " + user.getUsername() + "?";

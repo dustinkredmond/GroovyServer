@@ -1,5 +1,6 @@
 package org.gserve.api.persistence;
 
+import java.sql.DriverManager;
 import org.zkoss.zul.Messagebox;
 
 import javax.naming.Context;
@@ -11,18 +12,27 @@ import java.sql.SQLException;
 
 /**
  * Utility class for getting a java.sql.Connection object to the
- * application's main database. Configure in META-INF/context.xml
+ * application's main database.
  */
 public class Database {
 
     private static final String MARIADB_DRIVER = "org.mariadb.jdbc.Driver";
+    private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
+    private static String url;
+    private static String user;
+    private static String password;
 
-    // Load drivers on class load, ignore and let connect() method handle if
-    // classes aren't found.
     static {
         try {
             Class.forName(MARIADB_DRIVER);
-        } catch (ClassNotFoundException ignored) {
+            System.out.println("Loaded MariaDB SQL driver class.");
+        } catch (ClassNotFoundException e) {
+            try {
+                Class.forName(MYSQL_DRIVER);
+                System.out.println("Loaded MySQL driver class.");
+            } catch (ClassNotFoundException ex) {
+                System.err.println("Unable to load a valid SQL driver class.");
+            }
         }
     }
 
@@ -34,14 +44,35 @@ public class Database {
     public Connection connect() throws SQLException {
         Connection conn = null;
         try {
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource dataSource = (DataSource) envContext.lookup("jdbc/DB");
-            conn =  dataSource.getConnection();
-        } catch (NamingException e) {
+            conn =  DriverManager.getConnection(url, user, password);
+        } catch (SQLException e) {
             Messagebox.show(e.getMessage());
         }
         return conn;
+    }
+
+    public static boolean canConnect() {
+        try (Connection conn = DriverManager.getConnection(url,user,password)) {
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public static void setUrl(String url) {
+        Database.url = url;
+    }
+
+    public static void setUsername(String user) {
+        Database.user = user;
+    }
+
+    public static void setPassword(String password) {
+        Database.password = password;
+    }
+
+    public static boolean isConfigured() {
+        return Database.url != null && Database.user != null && Database.password != null;
     }
 
 }

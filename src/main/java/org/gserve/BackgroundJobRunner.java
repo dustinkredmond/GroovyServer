@@ -6,7 +6,6 @@ import org.gserve.model.GroovyScript;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.zkoss.zk.ui.WebApp;
-import org.zkoss.zk.ui.util.WebAppInit;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
@@ -14,17 +13,17 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
- * Web Application initiator. Ensures that all previously scheduled jobs are re-scheduled
  * Schedules time-based jobs and registers them with the Quartz framework
  */
-public class BackgroundJobRunner implements WebAppInit {
+public class BackgroundJobRunner {
 
-    private static SchedulerFactory schedulerFactory = new StdSchedulerFactory();
+    private static final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
-    public static SchedulerFactory getSchedulerFactory() {return BackgroundJobRunner.schedulerFactory;}
+    public static SchedulerFactory getSchedulerFactory() {
+        return BackgroundJobRunner.schedulerFactory;
+    }
 
-    @Override
-    public void init(WebApp webApp) {
+    public static void init(WebApp webApp) {
         try {
             startMonthlyJobs();
             System.out.println("MonthlyJobGroup execution scheduled successfully.");
@@ -76,7 +75,7 @@ public class BackgroundJobRunner implements WebAppInit {
         }
     }
 
-    private void startMonthlyJobs() throws Exception {
+    private static void startMonthlyJobs() throws Exception {
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(MonthlyJob.class)
@@ -92,7 +91,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startDailyJobs() throws Exception{
+    private static void startDailyJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(DailyJob.class)
@@ -108,7 +107,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startTwiceDailyJobs() throws Exception{
+    private static void startTwiceDailyJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(TwiceDailyJob.class)
@@ -124,7 +123,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startHourlyJobs() throws Exception{
+    private static void startHourlyJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(HourlyJob.class)
@@ -140,7 +139,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startHalfHourlyJobs() throws Exception {
+    private static void startHalfHourlyJobs() throws Exception {
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(HalfHourlyJob.class)
@@ -157,7 +156,7 @@ public class BackgroundJobRunner implements WebAppInit {
     }
 
 
-    private void startMinuteJobs() throws Exception{
+    private static void startMinuteJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(MinuteJob.class)
@@ -173,7 +172,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startCronJobs() {
+    private static void startCronJobs() {
         GroovyScript.findActive().forEach(gs -> {
             if (gs.isCron()){
                 String className = gs.getClassName();

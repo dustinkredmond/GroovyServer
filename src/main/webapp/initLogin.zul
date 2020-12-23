@@ -1,0 +1,31 @@
+<zk>
+  <window id="initLogin"
+    title="System Settings" width="50%" apply="org.gserve.ui.InitLoginController" closable="false">
+    <grid span="1" sizedByContent="true">
+      <columns>
+        <column width="35%"/>
+        <column width="75%"/>
+      </columns>
+      <rows>
+        <row>
+          <label>Enter database connection details:</label>
+        </row>
+        <row>
+          <label value="Database Username:"/>
+          <textbox id="textBoxUser" constraint="no empty" hflex="1" vflex="1"/>
+        </row>
+        <row>
+          <label value="Database Password:"/>
+          <textbox type="password" id="textBoxPass" constraint="no empty" hflex="1" vflex="1"/>
+        </row>
+        <row>
+          <label value="Database Connection String:"/>
+          <textbox value="jdbc:mariadb://localhost:3306/groovy_server" id="textBoxUrl" constraint="no empty" hflex="1" vflex="1"/>
+        </row>
+        <row>
+          <button id="buttonSubmit" label="Submit"/>
+        </row>
+      </rows>
+    </grid>
+  </window>
+</zk>
