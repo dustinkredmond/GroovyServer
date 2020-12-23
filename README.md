@@ -54,32 +54,22 @@ a simple web interface.
    
    `mv ./GroovyServer.war /var/lib/tomcat9/webapps/GroovyServer.war`
 
-**5. Navigate to the deployed application and change the security passphrase.**
+**5. Navigate to the deployed application and change the database connection details.**
 
-   For security, we have to provide a secure passphrase in `META-INF/context.xml`
-    
+   We must configure the following in `META-INF/context.xml`
+     - Database username, password, and connection URL
+     - Admin username and password
+     - All the above are required
+      
     `vi /var/lib/tomcat9/webapps/GroovyServer/META-INF/context.xml`
     
-   Change the value from `default` to something secure.    
    After changing `context.xml` we must reload Tomcat.
     
     `service tomcat9 restart` or `service tomcat9 reload`
     
 **6. Navigate to the URL where you deployed GroovyServer**
 
-   The web interface will prompt for the following:    
-    - Database username (created in step 3)
-    - Database password (created in step 3)
-    - Database Connection URL
-      - One of the following if you named your schema `groovy_server`
-        - `jdbc:mariadb://localhost:3306/groovy_serer`
-        - `jdbc:mysql://localhost:3306/groovy_server`
-    - Passphrase from `context.xml` (created in step 5)
-    - If you want to create an admin account
-      - If this is your first time using GroovyServer, you
-        must do this.
-        
-**7. Revisit the GroovyServer URL and login**
+   Login with the admin credentials from step five.
 
    You are now ready to use GroovyServer. Start by creating
    a script from the `Groovy Scripts` page. Available options
