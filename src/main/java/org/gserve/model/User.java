@@ -77,7 +77,7 @@ public class User {
         return s != null ? s:"";
     }
 
-    public static User getById(int id){
+    public static User getById(int id) {
         final String sql = "SELECT id, username, password, role FROM users WHERE id = ?";
         Database db = new Database();
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -89,7 +89,7 @@ public class User {
             return null;
         }
     }
-    public static User getByUsername(String username){
+    public static User getByUsername(String username) {
         final String sql = "SELECT id, username, password, role FROM users WHERE username = ?";
         Database db = new Database();
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -152,13 +152,7 @@ public class User {
     public String resetPassword() {
         final String sql = "UPDATE users SET password = ? WHERE id = ?";
 
-        // build a new random 10 character password string
-        StringBuilder passBuilder = new StringBuilder();
-        for (int i = 0; i < 10; i++) {
-            int character = (int) (Math.random()*PASSWORD_CHARS.length());
-            passBuilder.append(PASSWORD_CHARS.charAt(character));
-        }
-        String newPass = passBuilder.toString();
+        String newPass = generateRandomPassword();
 
         Database db = new Database();
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -172,5 +166,24 @@ public class User {
         return newPass;
     }
 
+    public static String generateRandomPassword() {
+        StringBuilder passBuilder = new StringBuilder();
+        for (int i = 0; i < 10; i++) {
+            int character = (int) (Math.random()*PASSWORD_CHARS.length());
+            passBuilder.append(PASSWORD_CHARS.charAt(character));
+        }
+        return passBuilder.toString();
+    }
+
+    public static String generateRandomUsername() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 5; i++) {
+            int character = (int) (Math.random()*USER_CHARS.length());
+            sb.append(USER_CHARS.charAt(character));
+        }
+        return sb.toString();
+    }
+
     private static final String PASSWORD_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+    private static final String USER_CHARS = "abcdefghijklmnopqrstuvwxyz";
 }

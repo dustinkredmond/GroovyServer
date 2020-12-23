@@ -18,11 +18,14 @@ package org.gserve.ui;
 
 import org.gserve.api.persistence.Database;
 import org.gserve.auth.AuthenticationInit;
+import org.gserve.auth.BCrypt;
+import org.gserve.model.User;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Checkbox;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
@@ -37,6 +40,8 @@ public class InitLoginController extends SelectorComposer<Component> {
     private Textbox textBoxUrl;
     @Wire
     private Window initLogin;
+    @Wire
+    private Checkbox createAdmin;
 
     @Listen("onClick = #buttonSubmit")
     public void handleSubmit() {
@@ -58,7 +63,21 @@ public class InitLoginController extends SelectorComposer<Component> {
 
         if (Database.canConnect()) {
             AuthenticationInit.setIsInitialLogin(false);
+            Database.createTablesAndSetup();
+            if (createAdmin.isChecked()) {
+                String adminUser = User.generateRandomUsername();
+                String adminPass = User.generateRandomPassword();
+                User admin = new User("admin", BCrypt.hashpw(adminPass, BCrypt.gensalt()), "admin");
+                User.add(admin);
+                Messagebox.show("Please login on the following screen with below:\n\n"
+                    + "Username: "+adminUser+"\n"
+                    + "Password: "+adminPass+"\n\n"
+                    + "You can create/remove users once logged in.\n"
+                    + "You will not be able to view above information again.");
+            }
             initLogin.detach();
+            Executions.sendRedirect("login.zul");
+
         } else {
             Messagebox.show("Cannot connect with provided details.");
         }
