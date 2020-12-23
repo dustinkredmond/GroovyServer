@@ -103,8 +103,8 @@ public class Database {
             ps.setString(2, adminPassword);
             ps.setString(3, "admin");
             ps.executeUpdate();
-        } catch (SQLException ignored) {
-            // already exists, violates UNIQUE constraint
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

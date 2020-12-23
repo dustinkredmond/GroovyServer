@@ -18,9 +18,7 @@ import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
-/**
- * Schedules time-based jobs and registers them with the Quartz framework
- */
+
 public class BackgroundJobRunner implements WebAppInit {
 
     private static final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
@@ -30,7 +28,7 @@ public class BackgroundJobRunner implements WebAppInit {
     }
 
     @Override
-    public void init(WebApp webApp) {
+    public void init(WebApp webApp) throws Exception {
         try {
             initializeAppDatabase();
         } catch (NamingException e) {
