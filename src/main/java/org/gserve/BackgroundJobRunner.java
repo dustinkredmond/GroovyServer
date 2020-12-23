@@ -52,7 +52,7 @@ public class BackgroundJobRunner implements WebAppInit {
         startScheduledJobs();
     }
 
-    private void initializeAppDatabase() throws NamingException {
+    private static void initializeAppDatabase() throws NamingException {
         InitialContext initialContext = new InitialContext();
         Context env = (Context) initialContext.lookup("java:/comp/env");
 
@@ -79,7 +79,7 @@ public class BackgroundJobRunner implements WebAppInit {
         Database.createDefaultInserts(adminUsername, BCrypt.hashpw(adminPassword, BCrypt.gensalt()));
     }
 
-    private void startScheduledJobs() {
+    private static void startScheduledJobs() {
         try {
             startMonthlyJobs();
             System.out.println("MonthlyJobGroup execution scheduled successfully.");
@@ -131,7 +131,7 @@ public class BackgroundJobRunner implements WebAppInit {
         }
     }
 
-    private void startMonthlyJobs() throws Exception {
+    private static void startMonthlyJobs() throws Exception {
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(MonthlyJob.class)
@@ -147,7 +147,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startDailyJobs() throws Exception{
+    private static void startDailyJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(DailyJob.class)
@@ -163,7 +163,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startTwiceDailyJobs() throws Exception{
+    private static void startTwiceDailyJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(TwiceDailyJob.class)
@@ -179,7 +179,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startHourlyJobs() throws Exception{
+    private static void startHourlyJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(HourlyJob.class)
@@ -195,7 +195,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startHalfHourlyJobs() throws Exception {
+    private static void startHalfHourlyJobs() throws Exception {
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(HalfHourlyJob.class)
@@ -212,7 +212,7 @@ public class BackgroundJobRunner implements WebAppInit {
     }
 
 
-    private void startMinuteJobs() throws Exception{
+    private static void startMinuteJobs() throws Exception{
         Scheduler scheduler = schedulerFactory.getScheduler();
         scheduler.start();
         JobDetail job = newJob(MinuteJob.class)
@@ -228,7 +228,7 @@ public class BackgroundJobRunner implements WebAppInit {
         scheduler.scheduleJob(job,trigger);
     }
 
-    private void startCronJobs() {
+    private static void startCronJobs() {
         GroovyScript.findActive().forEach(gs -> {
             if (gs.isCron()){
                 String className = gs.getClassName();
