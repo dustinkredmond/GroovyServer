@@ -1,14 +1,11 @@
 package org.gserve;
 
-import javax.naming.InitialContext;
 import org.gserve.jobs.*;
 import org.gserve.api.logging.Logger;
 import org.gserve.model.GroovyScript;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.zkoss.web.util.resource.ServletContextLocator;
 import org.zkoss.zk.ui.WebApp;
-import org.zkoss.zk.ui.WebApps;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
@@ -26,7 +23,7 @@ public class BackgroundJobRunner {
         return BackgroundJobRunner.schedulerFactory;
     }
 
-    public static void init(WebApp webApp) {
+    public static void init() {
         try {
             startMonthlyJobs();
             System.out.println("MonthlyJobGroup execution scheduled successfully.");

@@ -3,6 +3,7 @@ package org.gserve.ui;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import org.gserve.BackgroundJobRunner;
 import org.gserve.api.persistence.Database;
 import org.gserve.auth.AuthenticationInit;
 import org.gserve.auth.BCrypt;
@@ -68,6 +69,7 @@ public class InitLoginController extends SelectorComposer<Component> {
         if (Database.canConnect()) {
             AuthenticationInit.setIsInitialLogin(false);
             Database.createTablesAndSetup();
+            BackgroundJobRunner.init();
             initLogin.detach();
             if (createAdmin.isChecked()) {
                 String adminUser = User.generateRandomUsername();
