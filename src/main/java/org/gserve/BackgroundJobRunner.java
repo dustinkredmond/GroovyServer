@@ -1,28 +1,16 @@
 package org.gserve;
 
+import org.gserve.api.logging.Logger;
+import org.gserve.api.persistence.Database;
+import org.gserve.auth.BCrypt;
+import org.gserve.jobs.*;
+import org.gserve.model.GroovyScript;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import org.gserve.api.persistence.Database;
-import org.gserve.auth.BCrypt;
-import org.gserve.api.logging.Logger;
-import org.gserve.jobs.CronJob;
-import org.gserve.jobs.DailyJob;
-import org.gserve.jobs.HalfHourlyJob;
-import org.gserve.jobs.HourlyJob;
-import org.gserve.jobs.MinuteJob;
-import org.gserve.jobs.MonthlyJob;
-import org.gserve.jobs.TwiceDailyJob;
-import org.gserve.model.GroovyScript;
-import org.quartz.CronTrigger;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.Trigger;
-import org.quartz.impl.StdSchedulerFactory;
-import org.zkoss.zk.ui.WebApp;
-import org.zkoss.zk.ui.util.WebAppInit;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
@@ -30,7 +18,17 @@ import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 
-public class BackgroundJobRunner implements WebAppInit {
+public class BackgroundJobRunner {
+
+    private static boolean hasRun = false;
+
+    public static boolean hasRun() {
+        return BackgroundJobRunner.hasRun;
+    }
+
+    public static void setHasRun(boolean hasRun) {
+        BackgroundJobRunner.hasRun = hasRun;
+    }
 
     private static final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
@@ -38,8 +36,7 @@ public class BackgroundJobRunner implements WebAppInit {
         return BackgroundJobRunner.schedulerFactory;
     }
 
-    @Override
-    public void init(WebApp webApp) throws Exception {
+    public static void init() {
         try {
             initializeAppDatabase();
         } catch (NamingException e) {

@@ -1,5 +1,6 @@
 package org.gserve.auth;
 
+import org.gserve.BackgroundJobRunner;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
@@ -17,6 +18,10 @@ public class AuthenticationInit implements Initiator {
 
     @Override
     public void doInit(Page page, Map<String, Object> map) {
+        if (!BackgroundJobRunner.hasRun()) {
+            BackgroundJobRunner.init();
+        }
+
         Session session = Executions.getCurrent().getSession();
         if (session.hasAttribute("authenticated")){
             boolean authenticated = (boolean) session.getAttribute("authenticated");
