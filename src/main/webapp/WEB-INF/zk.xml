@@ -10,8 +10,4 @@
         <name>org.zkoss.theme.preferred</name>
         <value>silvertail</value>
     </library-property>
-    <!-- Kicks off the Quartz jobs on application start -->
-    <listener>
-        <listener-class>org.gserve.BackgroundJobRunner</listener-class>
-    </listener>
 </zk>
