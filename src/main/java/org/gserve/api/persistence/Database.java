@@ -104,9 +104,10 @@ public class Database {
 
     private static final String CREATE_USERS = "create table if not exists users("
         + "id int auto_increment primary key, "
-        + "username varchar(255) not null unique , "
+        + "username varchar(255) not null , "
         + "password longtext not null, "
-        + "role varchar(50) null"
+        + "role varchar(50) null, "
+        + "unique index(username)"
         + ");";
 
     private static final String CREATE_EXEC_LOGS = "create table if not exists execution_logs("
@@ -131,13 +132,15 @@ public class Database {
     private static final String CREATE_GV = "create table if not exists groovy_variables("
         + "id int auto_increment primary key,"
         + "variable varchar(255) null, "
-        + "value longtext null"
+        + "value longtext null, "
+        + "unique index(variable)"
         + ");";
 
     private static final String CREATE_SYS = "create table if not exists system_variables("
         + "variable varchar(255) null unique, "
         + "value varchar(255) null, "
-        + "id int auto_increment primary key"
+        + "id int auto_increment primary key, "
+        + "unique index(variable)"
         + ");";
 
     private static final String[] defaultVariables = new String[] {
