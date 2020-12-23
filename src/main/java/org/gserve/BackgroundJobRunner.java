@@ -4,13 +4,14 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import org.gserve.api.persistence.Database;
+import org.gserve.auth.BCrypt;
 import org.gserve.jobs.*;
 import org.gserve.api.logging.Logger;
 import org.gserve.model.GroovyScript;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
-import org.zkoss.bind.init.WebAppInit;
 import org.zkoss.zk.ui.WebApp;
+import org.zkoss.zk.ui.util.WebAppInit;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
@@ -20,7 +21,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 /**
  * Schedules time-based jobs and registers them with the Quartz framework
  */
-public class BackgroundJobRunner extends WebAppInit {
+public class BackgroundJobRunner implements WebAppInit {
 
     private static final SchedulerFactory schedulerFactory = new StdSchedulerFactory();
 
@@ -28,6 +29,7 @@ public class BackgroundJobRunner extends WebAppInit {
         return BackgroundJobRunner.schedulerFactory;
     }
 
+    @Override
     public void init(WebApp webApp) {
         try {
             initializeAppDatabase();
@@ -64,7 +66,7 @@ public class BackgroundJobRunner extends WebAppInit {
         Database.setUsername(dbUser);
         Database.setPassword(dbPassword);
         Database.setUrl(dbUrl);
-        Database.createTablesAndSetup(adminUsername, adminPassword);
+        Database.createTablesAndSetup(adminUsername, BCrypt.hashpw(adminPassword, BCrypt.gensalt()));
     }
 
     private void startScheduledJobs() {
