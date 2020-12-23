@@ -4,7 +4,7 @@
 	<groupId>com.dustinredmond</groupId>
 	<artifactId>GroovyServer</artifactId>
 	<version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+	<packaging>war</packaging>
 	<properties>
 		<zk.version>9.0.0</zk.version>
 		<commons-io>2.4</commons-io>
@@ -56,44 +56,39 @@
 			<version>${zk.version}</version>
 		</dependency>
 
-        <dependency>
-            <groupId>org.zkoss.theme</groupId>
-            <artifactId>silvertail</artifactId>
-            <version>${zk.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
-        <dependency>
-            <groupId>org.mariadb.jdbc</groupId>
-            <artifactId>mariadb-java-client</artifactId>
-            <version>2.4.3</version>
-        </dependency>
-        <!-- Groovy Beta (Plays well with newer JDKs) -->
-        <!-- TODO: Test new Groovy release -->
-        <dependency>
-            <groupId>org.codehaus.groovy</groupId>
-            <artifactId>groovy-all</artifactId>
-            <version>3.0.0-beta-2</version>
-            <type>pom</type>
-        </dependency>
-        <!-- TODO Test new version of quartz -->
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.3.2</version>
-        </dependency>
+		<dependency>
+			<groupId>org.zkoss.theme</groupId>
+			<artifactId>silvertail</artifactId>
+			<version>${zk.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<version>2.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>3.0.6</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.3.2</version>
+		</dependency>
 		<!-- Java Mail API -->
 		<dependency>
-		    <groupId>com.sun.mail</groupId>
-		    <artifactId>javax.mail</artifactId>
-		    <version>1.6.2</version>
-	    </dependency>
-        <!-- For SMS API -->
-        <!-- TODO: Consider supporting custom REST post to send SMS or post messages -->
-        <dependency>
-            <groupId>com.twilio.sdk</groupId>
-            <artifactId>twilio</artifactId>
-            <version>7.47.5</version>
-        </dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>7.47.5</version>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -115,9 +110,9 @@
 						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
 					</webAppConfig>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
-                    <stopKey/>
-                    <stopPort/>
-                </configuration>
+					<stopKey/>
+					<stopPort/>
+				</configuration>
 			</plugin>
 			<!-- Compile java -->
 			<plugin>
@@ -150,8 +145,8 @@
 							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
 								<descriptor>src/main/assembly/webapp.xml</descriptor>
-                            </descriptors>
-                        </configuration>
+							</descriptors>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
