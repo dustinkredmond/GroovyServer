@@ -48,7 +48,7 @@ public class Database {
             DataSource ds = (DataSource) env.lookup("jdbc/DB");
             conn =  ds.getConnection();
         } catch (SQLException | NamingException e) {
-            Messagebox.show(e.getMessage());
+            e.printStackTrace();
         }
         return conn;
     }
@@ -61,7 +61,7 @@ public class Database {
             DataSource ds = (DataSource) env.lookup("jdbc/DB");
             conn = ds.getConnection();
         } catch (SQLException | NamingException e) {
-            Messagebox.show(e.getMessage());
+            e.printStackTrace();
         }
         return conn;
     }
