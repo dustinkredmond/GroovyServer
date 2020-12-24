@@ -57,11 +57,14 @@ public class Database {
         Context init = new InitialContext();
         Context env = (Context) init.lookup("jdbc/DB");
         DataSource ds = (DataSource) env.lookup("jdbc/DB");
+
+        if (ds == null) {
+            ds = (DataSource) init.lookup("java:/comp/env/jdbc/DB");
+        }
         return ds.getConnection();
     }
 
     public static void createTablesAndSetup() throws SQLException, NamingException{
-
         try (Connection conn = Database.getConnection()) {
             conn.prepareStatement(CREATE_EXEC_LOGS).executeUpdate();
             conn.prepareStatement(CREATE_GS).executeUpdate();
