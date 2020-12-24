@@ -91,9 +91,6 @@ public class TableViewController extends Listbox {
 
     private List<Listitem> getSqlResults(String sql) {
         List<Listitem> listItems = new ArrayList<>();
-        if (!Database.isConfigured() || !Database.canConnect()) {
-            return listItems;
-        }
         Database db = new Database();
 
         try (Connection conn = db.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)){
@@ -115,10 +112,6 @@ public class TableViewController extends Listbox {
     }
 
     private Listhead getColumnNames(String sql) {
-        if (!Database.canConnect()) {
-            return new Listhead();
-        }
-
         Listhead columnNames = new Listhead();
         columnNames.setId("listHead");
         columnNames.setSizable(true);

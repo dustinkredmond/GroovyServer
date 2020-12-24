@@ -1,11 +1,21 @@
 <Context>
-  <!-- MySQL/MariaDB connection details -->
-  <Environment name="dbUser" value="mysql-username-here" type="java.lang.String"/>
-  <Environment name="dbPassword" value="mysql-password-here" type="java.lang.String"/>
-  <Environment name="dbUrl" value="jdbc:mariadb://localhost:3306/groovy_server" type="java.lang.String"/>
 
-  <!-- Login information for the admin user -->
-  <!-- will be automatically created, if changed via UI, UI value takes precedence -->
-  <Environment name="adminUsername" value="" type="java.lang.String"/>
-  <Environment name="adminPassword" value="" type="java.lang.String"/>
+    <!-- Modify the below for your database environment -->
+    <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"
+              maxTotal="100" maxIdle="30" maxWaitMillis="10000"
+              username="dbUsername"
+              password="secure3DBpa55"
+              driverClassName="org.mariadb.jdbc.Driver"
+              url="jdbc:mariadb://localhost:3306/groovy_server"
+              />
+
+    <!-- Comment above Resource and use this for MySQL instead of MariaDB -->
+<!--    <Resource name="jdbc/DB" auth="Container" type="javax.sql.DataSource"-->
+<!--              maxTotal="100" maxIdle="30" maxWaitMillis="10000"-->
+<!--              username="dbUsername"-->
+<!--              password="secure3DBpa55"-->
+<!--              driverClassName="com.mysql.jdbc.Driver"-->
+<!--              url="jdbc:mysql://localhost:3306/groovy_server"-->
+<!--    />-->
+
 </Context>

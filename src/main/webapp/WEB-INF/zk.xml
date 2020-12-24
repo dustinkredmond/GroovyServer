@@ -11,4 +11,8 @@
         <value>silvertail</value>
     </library-property>
 
+    <listener>
+        <listener-class>org.gserve.BackgroundJobRunner</listener-class>
+    </listener>
+
 </zk>

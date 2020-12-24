@@ -1,9 +1,6 @@
 package org.gserve.api.persistence;
 
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import org.gserve.auth.BCrypt;
 import org.zkoss.zul.Messagebox;
 
 import javax.naming.Context;
@@ -11,6 +8,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -21,9 +20,6 @@ public class Database {
 
     private static final String MARIADB_DRIVER = "org.mariadb.jdbc.Driver";
     private static final String MYSQL_DRIVER = "com.mysql.jdbc.Driver";
-    private static String url;
-    private static String user;
-    private static String password;
 
     static {
         try {
@@ -47,40 +43,32 @@ public class Database {
     public Connection connect() throws SQLException {
         Connection conn = null;
         try {
-            conn =  DriverManager.getConnection(url, user, password);
-        } catch (SQLException e) {
+            Context init = new InitialContext();
+            Context env = (Context) init.lookup("java:/comp/env");
+            DataSource ds = (DataSource) env.lookup("jdbc/DB");
+            conn =  ds.getConnection();
+        } catch (SQLException | NamingException e) {
             Messagebox.show(e.getMessage());
         }
         return conn;
     }
 
-    public static boolean canConnect() {
-        try (Connection conn = DriverManager.getConnection(url,user,password)) {
-            return true;
-        } catch (SQLException e) {
-            return false;
+    public static Connection getConnection() {
+        Connection conn = null;
+        try {
+            Context init = new InitialContext();
+            Context env = (Context) init.lookup("jdbc/DB");
+            DataSource ds = (DataSource) env.lookup("jdbc/DB");
+            conn = ds.getConnection();
+        } catch (SQLException | NamingException e) {
+            Messagebox.show(e.getMessage());
         }
+        return conn;
     }
-
-    public static void setUrl(String url) {
-        Database.url = url;
-    }
-
-    public static void setUsername(String user) {
-        Database.user = user;
-    }
-
-    public static void setPassword(String password) {
-        Database.password = password;
-    }
-
-    public static boolean isConfigured() {
-        return Database.url != null && Database.user != null && Database.password != null;
-    }
-
 
     public static void createTablesAndSetup() {
-        try (Connection conn = DriverManager.getConnection(url,user,password)) {
+
+        try (Connection conn = Database.getConnection()) {
             conn.prepareStatement(CREATE_EXEC_LOGS).executeUpdate();
             conn.prepareStatement(CREATE_GS).executeUpdate();
             conn.prepareStatement(CREATE_GV).executeUpdate();
@@ -91,12 +79,14 @@ public class Database {
         }
     }
 
-    public static void createDefaultInserts(String adminUsername, String adminPassword) {
-        final String sqlAdmin = "INSERT INTO users (username,password,role) VALUES (?,?,?)";
-        try (Connection conn = DriverManager.getConnection(url,user,password);
+    public static void createDefaultInserts() {
+        final String adminUsername = "admin";
+        final String adminPassword = BCrypt.hashpw(adminUsername, BCrypt.gensalt());
+        final String sqlAdmin = "INSERT IGNORE INTO users (username,password,role) VALUES (?,?,?)";
+        try (Connection conn = Database.getConnection();
         PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
             for (String v : defaultVariables) {
-                conn.prepareStatement("INSERT INTO system_variables "
+                conn.prepareStatement("INSERT IGNORE INTO system_variables "
                     + "(variable, value) values ("+v+",'');").executeUpdate();
             }
             ps.setString(1, adminUsername);
