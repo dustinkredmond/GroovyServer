@@ -43,9 +43,7 @@ public class Database {
     public Connection connect() throws SQLException {
         Connection conn = null;
         try {
-            Context init = new InitialContext();
-            Context env = (Context) init.lookup("java:/comp/env");
-            DataSource ds = (DataSource) env.lookup("jdbc/DB");
+            DataSource ds = (DataSource) new InitialContext().lookup("java:/comp/env/jdbc/DB");
             conn =  ds.getConnection();
         } catch (SQLException | NamingException e) {
             e.printStackTrace();
@@ -54,13 +52,7 @@ public class Database {
     }
 
     public static Connection getConnection() throws SQLException, NamingException {
-        Context init = new InitialContext();
-        Context env = (Context) init.lookup("jdbc/DB");
-        DataSource ds = (DataSource) env.lookup("jdbc/DB");
-
-        if (ds == null) {
-            ds = (DataSource) init.lookup("java:/comp/env/jdbc/DB");
-        }
+        DataSource ds = (DataSource) new InitialContext().lookup("java:/comp/env/jdbc/DB");
         return ds.getConnection();
     }
 
