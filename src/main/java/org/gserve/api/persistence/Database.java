@@ -74,7 +74,7 @@ public class Database {
              PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
             for (String v : defaultVariables) {
                 conn.prepareStatement("INSERT IGNORE INTO system_variables "
-                        + "(variable, value) values (" + v + ",'');").executeUpdate();
+                        + "(variable, value) values (\"" + v + "\",'');").executeUpdate();
             }
             ps.setString(1, adminUsername);
             ps.setString(2, adminPassword);
