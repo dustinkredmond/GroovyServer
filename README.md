@@ -53,13 +53,24 @@ a simple web interface.
    Your path to Tomcat may be different.
    
    `mv ./GroovyServer.war /var/lib/tomcat9/webapps/GroovyServer.war`
+   
+   If Tomcat doesn't automatically expand your WAR,
+   create a directory, `mv` the WAR into it, then extract.
+   
+   `user@host: /var/lib/tomcat9/webapps/$ sudo mkdir ./GroovyServer`
+   
+   `sudo mv ./GroovyServer.war ./GroovyServer/`
+   
+   `sudo jar xvf ./GroovyServer/GroovyServer.war`
+   
+   `sudo rm ./GroovyServer/GroovyServer.war`
 
-**5. Navigate to the deployed application and change the database connection details.**
+**5. Navigate to the deployed (unpacked) application and change the database connection details.**
 
    We must configure the following in `META-INF/context.xml`
-     - Database username, password, and connection URL
-     - Admin username and password
-     - All the above are required
+   
+   - Database username, password, and connection URL
+   - All the above are required
       
     `vi /var/lib/tomcat9/webapps/GroovyServer/META-INF/context.xml`
     
@@ -69,12 +80,34 @@ a simple web interface.
     
 **6. Navigate to the URL where you deployed GroovyServer**
 
-   Login with the admin credentials from step five.
+   Login with the default admin credentials (username: admin password: admin).
+   Make sure to change these credentials before production use.
 
    You are now ready to use GroovyServer. Start by creating
    a script from the `Groovy Scripts` page. Available options
    are accessible under the `Actions` menu. Scripts can be 
    run on demand or on a schedule.
+
+---
+
+### Is GroovyServer safe?
+
+Disclaimer time. While we do everything possible to make sure GroovyServer is 
+bulletproof, if given enough time, anyone can hack anything.
+
+Since GroovyServer facilitates execution of arbitrary Groovy code, if a hacker
+were to compromise the system, this could be catastrophic. They could execute
+any code that Groovy/Java would allow.
+
+For the above reason, we recommended an instance of GroovyServer not
+be open for use on the WWW, but rather only be accessible via a local intranet.
+This way, if someone were to hack into the application, they would at least have
+to be on the local network, which requires much more know-how than simply brute-forcing
+their way through password based authentication.
+
+That being said, there are instances of GroovyServer on the WWW today, and
+(knock on wood) they remain secure and un-compromised. One must weight the 
+risks before making any web-application publicly available.
 
 ---
 
