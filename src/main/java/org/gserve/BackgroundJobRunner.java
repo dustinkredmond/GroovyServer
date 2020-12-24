@@ -9,6 +9,9 @@ import org.quartz.impl.StdSchedulerFactory;
 import org.zkoss.zk.ui.WebApp;
 import org.zkoss.zk.ui.util.WebAppInit;
 
+import javax.naming.NamingException;
+import java.sql.SQLException;
+
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
@@ -24,7 +27,7 @@ public class BackgroundJobRunner implements WebAppInit {
     }
 
     @Override
-    public void init(WebApp webApp) {
+    public void init(WebApp webApp) throws SQLException, NamingException {
         System.out.println("--------------------------- " +
                 "Initializing BackgroundJobRunner for database bootstrapping ---------------------------");
         initializeAppDatabase();
@@ -33,7 +36,7 @@ public class BackgroundJobRunner implements WebAppInit {
         startScheduledJobs();
     }
 
-    private static void initializeAppDatabase() {
+    private static void initializeAppDatabase() throws SQLException, NamingException {
         Database.createTablesAndSetup();
         Database.createDefaultInserts();
     }

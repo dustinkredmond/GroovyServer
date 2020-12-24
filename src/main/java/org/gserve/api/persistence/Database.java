@@ -53,20 +53,14 @@ public class Database {
         return conn;
     }
 
-    public static Connection getConnection() {
-        Connection conn = null;
-        try {
-            Context init = new InitialContext();
-            Context env = (Context) init.lookup("jdbc/DB");
-            DataSource ds = (DataSource) env.lookup("jdbc/DB");
-            conn = ds.getConnection();
-        } catch (SQLException | NamingException e) {
-            e.printStackTrace();
-        }
-        return conn;
+    public static Connection getConnection() throws SQLException, NamingException {
+        Context init = new InitialContext();
+        Context env = (Context) init.lookup("jdbc/DB");
+        DataSource ds = (DataSource) env.lookup("jdbc/DB");
+        return ds.getConnection();
     }
 
-    public static void createTablesAndSetup() {
+    public static void createTablesAndSetup() throws SQLException, NamingException{
 
         try (Connection conn = Database.getConnection()) {
             conn.prepareStatement(CREATE_EXEC_LOGS).executeUpdate();
@@ -74,78 +68,74 @@ public class Database {
             conn.prepareStatement(CREATE_GV).executeUpdate();
             conn.prepareStatement(CREATE_USERS).executeUpdate();
             conn.prepareStatement(CREATE_SYS).executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Failed to create application tables.", e);
         }
     }
 
-    public static void createDefaultInserts() {
+    public static void createDefaultInserts() throws SQLException, NamingException {
         final String adminUsername = "admin";
         final String adminPassword = BCrypt.hashpw(adminUsername, BCrypt.gensalt());
         final String sqlAdmin = "INSERT IGNORE INTO users (username,password,role) VALUES (?,?,?)";
         try (Connection conn = Database.getConnection();
-        PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
+             PreparedStatement ps = conn.prepareStatement(sqlAdmin)) {
             for (String v : defaultVariables) {
                 conn.prepareStatement("INSERT IGNORE INTO system_variables "
-                    + "(variable, value) values ("+v+",'');").executeUpdate();
+                        + "(variable, value) values (" + v + ",'');").executeUpdate();
             }
             ps.setString(1, adminUsername);
             ps.setString(2, adminPassword);
             ps.setString(3, "admin");
             ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
     }
 
     private static final String CREATE_USERS = "create table if not exists users("
-        + "id int auto_increment primary key, "
-        + "username varchar(255) not null , "
-        + "password longtext not null, "
-        + "role varchar(50) null, "
-        + "unique index(username)"
-        + ");";
+            + "id int auto_increment primary key, "
+            + "username varchar(255) not null , "
+            + "password longtext not null, "
+            + "role varchar(50) null, "
+            + "unique index(username)"
+            + ");";
 
     private static final String CREATE_EXEC_LOGS = "create table if not exists execution_logs("
-        + "id int auto_increment primary key, "
-        + "event varchar(255) null, "
-        + "created varchar(255) null, "
-        + "level varchar(255) null"
-        + ");";
+            + "id int auto_increment primary key, "
+            + "event varchar(255) null, "
+            + "created varchar(255) null, "
+            + "level varchar(255) null"
+            + ");";
 
     private static final String CREATE_GS = "create table if not exists groovy_scripts("
-        + "id int auto_increment primary key,"
-        + "class_name varchar(255) null, "
-        + "description varchar(255) null, "
-        + "code longtext null, "
-        + "created varchar(255) null, "
-        + "creator varchar(255) null, "
-        + "changed varchar(255) null, "
-        + "is_scheduled varchar(3) not null, "
-        + "schedule varchar(255) null, "
-        + "last_execution varchar(255) null"
-        + ");";
+            + "id int auto_increment primary key,"
+            + "class_name varchar(255) null, "
+            + "description varchar(255) null, "
+            + "code longtext null, "
+            + "created varchar(255) null, "
+            + "creator varchar(255) null, "
+            + "changed varchar(255) null, "
+            + "is_scheduled varchar(3) not null, "
+            + "schedule varchar(255) null, "
+            + "last_execution varchar(255) null"
+            + ");";
     private static final String CREATE_GV = "create table if not exists groovy_variables("
-        + "id int auto_increment primary key,"
-        + "variable varchar(255) null, "
-        + "value longtext null, "
-        + "unique index(variable)"
-        + ");";
+            + "id int auto_increment primary key,"
+            + "variable varchar(255) null, "
+            + "value longtext null, "
+            + "unique index(variable)"
+            + ");";
 
     private static final String CREATE_SYS = "create table if not exists system_variables("
-        + "variable varchar(255) null unique, "
-        + "value varchar(255) null, "
-        + "id int auto_increment primary key, "
-        + "unique index(variable)"
-        + ");";
+            + "variable varchar(255) null unique, "
+            + "value varchar(255) null, "
+            + "id int auto_increment primary key, "
+            + "unique index(variable)"
+            + ");";
 
     private static final String[] defaultVariables = new String[] {
-        "smtpUsername",
-        "smtpPassword",
-        "smtpServer",
-        "smtpPort",
-        "alertLevel",
-        "alertEmail"
+            "smtpUsername",
+            "smtpPassword",
+            "smtpServer",
+            "smtpPort",
+            "alertLevel",
+            "alertEmail"
     };
 
 }
