@@ -20,8 +20,8 @@ public class Logger {
     private static final String INFO = "INFO";
     private static final String WARNING = "WARNING";
     private static final String ERROR = "ERROR";
-    private String level = SystemVariables.getValue("alertLevel").trim().toUpperCase();
-    private String toEmail = SystemVariables.getValue("alertEmail");
+    private final String level = SystemVariables.getValue("alertLevel").trim().toUpperCase();
+    private final String toEmail = SystemVariables.getValue("alertEmail");
 
     /**
      * Logs to the execution logs an event with level INFO, sends an email if configured via SystemVariables

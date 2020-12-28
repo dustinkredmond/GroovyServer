@@ -17,10 +17,10 @@ import java.util.Properties;
 @SuppressWarnings({"unused"})
 public class SimpleEmail {
 
-    private String smtpUsername = SystemVariables.getValue("smtpUsername");
-    private String smtpPassword = SystemVariables.getValue("smtpPassword");
-    private String smtpServer = SystemVariables.getValue("smtpServer");
-    private String smtpPort = SystemVariables.getValue("smtpPort");
+    private final String smtpUsername = SystemVariables.getValue("smtpUsername");
+    private final String smtpPassword = SystemVariables.getValue("smtpPassword");
+    private final String smtpServer = SystemVariables.getValue("smtpServer");
+    private final String smtpPort = SystemVariables.getValue("smtpPort");
 
     /**
      * Sends an email using values set in system settings to resolve SMTP options.

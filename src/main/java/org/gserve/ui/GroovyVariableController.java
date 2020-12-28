@@ -48,7 +48,7 @@ public class GroovyVariableController extends SelectorComposer<Component> {
                 Messagebox.show("Please select a variable first.");
             } else {
                 HashMap<String, Object> arg = new HashMap<>();
-                int id = Integer.valueOf(listBox.getSelectedItem().getLabel());
+                int id = Integer.parseInt(listBox.getSelectedItem().getLabel());
                 arg.put("groovyVariable", GroovyVariables.getVariableById(id));
                 arg.put("groovyValue", GroovyVariables.getValueById(id));
                 Window window = (Window) Executions.createComponents("variables/edit.zul", 
@@ -65,7 +65,7 @@ public class GroovyVariableController extends SelectorComposer<Component> {
             if (listBox.getSelectedItem() == null) {
                 Messagebox.show("Please select a variable first.");
             } else {
-                int key = Integer.valueOf(listBox.getSelectedItem().getLabel());
+                int key = Integer.parseInt(listBox.getSelectedItem().getLabel());
                 Messagebox.show("Are you sure you want to delete the selected variable?", "Delete?", 
                                 Messagebox.YES | Messagebox.NO,
                         Messagebox.QUESTION, evt -> {

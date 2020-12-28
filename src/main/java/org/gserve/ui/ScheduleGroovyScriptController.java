@@ -52,7 +52,7 @@ public class ScheduleGroovyScriptController extends SelectorComposer<Component> 
             }
         }
 
-        GroovyScript gs = GroovyScript.getById(Integer.valueOf(textBoxKey.getText()));
+        GroovyScript gs = GroovyScript.getById(Integer.parseInt(textBoxKey.getText()));
         if (gs == null || listBoxSchedule.getSelectedItem() == null) {
             Messagebox.show("Unable to schedule null script.");
         } else { // if listbox has been filled out.

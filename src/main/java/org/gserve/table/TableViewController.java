@@ -72,7 +72,7 @@ public class TableViewController extends Listbox {
     /**
      * Handler to swap dragged event with its onDrop action.
      */
-    private EventListener<? extends Event> head = (EventListener<Event>) e -> {
+    private final EventListener<? extends Event> head = (EventListener<Event>) e -> {
         if (e instanceof DropEvent) {
             DropEvent event = (DropEvent) e;
 

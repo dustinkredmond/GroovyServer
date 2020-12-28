@@ -1,16 +1,12 @@
 package org.gserve.api.persistence;
 
-import org.gserve.auth.BCrypt;
-import org.zkoss.zul.Messagebox;
-
-import javax.naming.Context;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import org.gserve.auth.BCrypt;
 
 /**
  * Utility class for getting a java.sql.Connection object to the
@@ -38,9 +34,8 @@ public class Database {
     /**
      * Method for getting connections to the GroovyServer's main database.
      * @return Returns a java.sql.Connection to the configured database.
-     * @throws SQLException Throws SQLException if Connection cannot be established.
      */
-    public Connection connect() throws SQLException {
+    public Connection connect() {
         Connection conn = null;
         try {
             DataSource ds = (DataSource) new InitialContext().lookup("java:/comp/env/jdbc/DB");

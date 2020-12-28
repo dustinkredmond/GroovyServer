@@ -33,7 +33,7 @@ import java.util.List;
  */
 public class SimpleSMS {
 
-    private String fromNumber;
+    private final String fromNumber;
 
     /**
      * Creates an instance and authenticates with the Twilio SMS service.
@@ -77,7 +77,7 @@ public class SimpleSMS {
     }
 
     private static class TwilioResponse {
-        private HashMap<String,String> response;
+        private final HashMap<String,String> response;
         public TwilioResponse(HashMap<String,String> response) {
             this.response = response;
         }
