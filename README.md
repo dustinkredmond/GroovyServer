@@ -72,11 +72,11 @@ a simple web interface.
    - Database username, password, and connection URL
    - All the above are required
       
-    `vi /var/lib/tomcat9/webapps/GroovyServer/META-INF/context.xml`
+    vi /var/lib/tomcat9/webapps/GroovyServer/META-INF/context.xml
     
    After changing `context.xml` we must reload Tomcat.
     
-    `service tomcat9 restart` or `service tomcat9 reload`
+    service tomcat9 restart or service tomcat9 reload
     
 **6. Navigate to the URL where you deployed GroovyServer**
 
