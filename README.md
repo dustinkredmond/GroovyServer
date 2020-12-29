@@ -34,17 +34,17 @@ a simple web interface.
 
 **1. Grab the project and build the WAR file**
 
-    `git clone https://github.com/dustinkredmond/GroovySerer`
-    
-    `mvn package`
+    git clone https://github.com/dustinkredmond/GroovySerer
+    cd GroovyServer
+    mvn package`
 
 **2. Create a MariaDB or MySQL schema/database for the installation.** 
 
-    E.g. `create database groovy_server;`
+    mysql> create database groovy_server;
 
 **3. Create a user for GroovyServer and give them permissions.**
 
-    `grant all privileges on groovy_server.* to 'username'@'localhost' identified by 'aGoodPassword'`
+    grant all privileges on groovy_server.* to 'username'@'localhost' identified by 'aGoodPassword';
 
 **4. Deploy the WAR file to a Tomcat Application server**
 
