@@ -50,12 +50,20 @@ public class SimpleSMS {
      * Sends a single message via Twilio API
      * @param toNumber Phone number of the recipient in format "+{country code}{area code}{number}" e.g. "+15551234567
      * @param message SMS Message to send
+     * @return TwilioResponse object
      */
     public TwilioResponse sendSms(String toNumber, String message) {
         Message sms = Message.creator(new PhoneNumber(toNumber), new PhoneNumber(this.fromNumber), message).create();
         return mapToResponse(sms);
     }
 
+    /**
+     * Sends a simple message to multiple phone numbers
+     * via the Twilio API
+     * @param toNumbers Array of phone numbers in format "+{country code}{area code}{number}"
+     * @param message SMS message to send
+     * @return List of TwilioResponse objects
+     */
     public List<TwilioResponse> sendSms(String[] toNumbers, String message) {
         List<TwilioResponse> responses = new ArrayList<>();
         for (String number: toNumbers) {
