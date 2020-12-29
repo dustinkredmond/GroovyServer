@@ -1,0 +1,12 @@
+org.gserve
+org.gserve.api
+org.gserve.api.groovy
+org.gserve.api.logging
+org.gserve.api.persistence
+org.gserve.api.query
+org.gserve.auth
+org.gserve.jobs
+org.gserve.menu
+org.gserve.model
+org.gserve.table
+org.gserve.ui
