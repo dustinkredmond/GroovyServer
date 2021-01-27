@@ -106,7 +106,7 @@ to be on the local network, which requires much more know-how than simply brute-
 their way through password based authentication.
 
 That being said, there are instances of GroovyServer on the WWW today, and
-(knock on wood) they remain secure and un-compromised. One must weight the 
+(knock on wood) they remain secure and un-compromised. One must weigh the 
 risks before making any web-application publicly available.
 
 ---
