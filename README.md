@@ -16,7 +16,7 @@ a simple web interface.
  - Create easily modifiable variables accessible by Groovy scripts
    - Change the variable, and it will change in all the scripts that use it
    - Great for things like email addresses, URLs, etc
- - Notifications for system events: errors, warnings (this is configurable)
+ - Notifications for system events: errors, warnings (logging level is configurable)
  - Execution log view, see who runs what scripts, and when
    - Your scripts can also log to this view
  - Send emails from scripts using configured SMTP settings
@@ -27,6 +27,7 @@ a simple web interface.
     - Make use of ZKOSS framework UI components
       - Ask for user input when run
       - Display results of a script in the browser
+      - Any part of ZK framework can be used
  
 ---
 
