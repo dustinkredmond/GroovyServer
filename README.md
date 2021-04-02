@@ -96,10 +96,6 @@ a simple web interface.
 Disclaimer time. While we do everything possible to make sure GroovyServer is 
 bulletproof, if given enough time, anyone can hack anything.
 
-Since GroovyServer facilitates execution of arbitrary Groovy code, if a hacker
-were to compromise the system, this could be catastrophic. They could execute
-any code that Groovy/Java would allow.
-
 For the above reason, we recommended an instance of GroovyServer not
 be open for use on the WWW, but rather only be accessible via a local intranet.
 This way, if someone were to hack into the application, they would at least have
