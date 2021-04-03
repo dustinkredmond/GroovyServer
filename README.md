@@ -101,11 +101,6 @@ be open for use on the WWW, but rather only be accessible via a local intranet.
 This way, if someone were to hack into the application, they would at least have
 to be on the local network, which requires much more know-how than simply brute-forcing
 their way through password based authentication.
-
-That being said, there are instances of GroovyServer on the WWW today, and
-(knock on wood) they remain secure and un-compromised. One must weigh the 
-risks before making any web-application publicly available.
-
 ---
 
 Feel free to fork the repo or submit a pull request. We love your input!
