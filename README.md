@@ -37,7 +37,7 @@ a simple web interface.
 
     git clone https://github.com/dustinkredmond/GroovySerer
     cd GroovyServer
-    mvn package`
+    mvn package
 
 **2. Create a MariaDB or MySQL schema/database for the installation.** 
 
