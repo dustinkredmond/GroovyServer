@@ -93,15 +93,10 @@ a simple web interface.
 
 ### Is GroovyServer safe?
 
-Disclaimer time. While we do everything possible to make sure GroovyServer is 
-bulletproof, if given enough time, anyone can hack anything.
+Disclaimer time. While I do everything possible to make sure GroovyServer is 
+bulletproof, if given enough time, anyone can hack anything. This should never allowed to be internet-facing. It's more a nifty tool that you can use to help consolidate your various scripts and keep tabs on their execution while being alerted to problems if they fail to run.
 
-For the above reason, we recommended an instance of GroovyServer not
-be open for use on the WWW, but rather only be accessible via a local intranet.
-This way, if someone were to hack into the application, they would at least have
-to be on the local network, which requires much more know-how than simply brute-forcing
-their way through password based authentication.
 ---
 
-Feel free to fork the repo or submit a pull request. We love your input!
+Feel free to fork the repo or submit a pull request. I would love to hear your input!
 
